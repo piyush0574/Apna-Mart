@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProductDespcriptionFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/product_description_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textColor="@color/black"
+        android:text="Modules provide a container for your app's source code, resource files, and app level settings, such as the module-level build file and Android manifest file. Each module can be independently built, tested, and debugged.
+
+Android Studio uses modules to make it easy to add
+new devices to your project. By following a few simple steps in Android Studio, you can create a module to contain code that's specific to a device type, such as Wear OS or Android TV. Android Studio automatically creates module directories, such as source and resource directories, and a default build.gradle file appropriate for the device type. Also, Android Studio creates device modules with recommended build configurations, such as using the Leanback library for Android TV modules." />
+
+</FrameLayout>

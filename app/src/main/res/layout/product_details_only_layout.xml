@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorAccent"
+    android:elevation="3dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:id="@+id/product_details_container"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/product_details_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Product Details"
+        android:background="@color/grayLight"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/product_details_body_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="This example will take you through simple steps to show
+        how to create your own Android application using Linear Layout. Follow the following steps
+         to modify the Android application we created in Hello World Example chapter −"
+        android:padding="16dp"
+        android:textColor="#FF3D00"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_details_title" />
+</androidx.constraintlayout.widget.ConstraintLayout>
