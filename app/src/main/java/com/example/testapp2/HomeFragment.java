@@ -12,6 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,16 +45,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView categoryRecycleView;
     private  CategoryAdaptor categoryAdaptor;
     private  RecyclerView homePageRecycleView;
+    private List<CategoryModel> categoryModelList;
+    private FirebaseFirestore firebaseFirestore;
 
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -72,51 +72,56 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_home, container, false);
+        // category section
         categoryRecycleView=view.findViewById(R.id.category_recycleview);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         categoryRecycleView.setLayoutManager(layoutManager);
-        final List<CategoryModel> categoryModelList=new ArrayList<CategoryModel>();
-        categoryModelList.add(new CategoryModel("Link","Home"));
-        categoryModelList.add(new CategoryModel("Link","Home2"));
-        categoryModelList.add(new CategoryModel("Link","Home3"));
-        categoryModelList.add(new CategoryModel("Link","Home4"));
-        categoryModelList.add(new CategoryModel("Link","Home5"));
-        categoryModelList.add(new CategoryModel("Link","Home5"));
-        categoryModelList.add(new CategoryModel("Link","Home5"));
-        categoryModelList.add(new CategoryModel("Link","Home5"));
-        categoryModelList.add(new CategoryModel("Link","Home5"));
-        categoryModelList.add(new CategoryModel("Link","Home5"));
-        categoryModelList.add(new CategoryModel("Link","Home5"));
+        categoryModelList=new ArrayList<CategoryModel>();
+
         categoryAdaptor=new CategoryAdaptor(categoryModelList);
         categoryRecycleView.setAdapter(categoryAdaptor);
-        categoryAdaptor.notifyDataSetChanged();
+
+        //firebase collections
+        firebaseFirestore=FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("CATEGORIES").orderBy("Index").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful())
+                    {
+                        for(QueryDocumentSnapshot documentSnapshot:task.getResult())
+                        {
+                            categoryModelList.add(new CategoryModel(documentSnapshot.get("icon").toString(),documentSnapshot.get("categoryName").toString()));
+
+                        }
+                        categoryAdaptor.notifyDataSetChanged();
+                        
+                    }
+                    else
+                    {
+                        String error=task.getException().getMessage();
+                        Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
+                    }
+                    }
+                });
+
+
+        // category section
 
         List<SliderModel>sliderModelList=new ArrayList<SliderModel>();
-        sliderModelList=new ArrayList<SliderModel>();
-        sliderModelList.add(new SliderModel(R.mipmap.home_icon,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.home_icon,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.home_icon,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.error_icon,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.email_in_progress100px,"#077AE4"));
 
-        //  sliderModelList.add(new SliderModel(R.mipmap.email_in_progress100px,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.cart_black,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.email_in_progress_60,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.home_icon,"#077AE4"));
-
-
-        sliderModelList.add(new SliderModel(R.mipmap.error_icon,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.email_in_progress100px,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.cart_black,"#077AE4"));
 
 
 
        List<HorizonalProductScrollModel>horizonalProductScrollModelList=new ArrayList<>();
-       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.furniture_icon,"RedMi 5A","SD625","Rs.266"));
-       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.my_rewards,"RedMi 5A","SD625","Rs.266"));
+        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"Fruits and Vegetables","",""));
+        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"Fruits and Vegetables","",""));
+        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"Fruits and Vegetables","",""));
+
+        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.my_rewards,"RedMi 5A","SD625","Rs.266"));
        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5A","SD625","Rs.266"));
-       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5A","SD625","Rs.266"));
+       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"RedMi 5A","SD625","Rs.266"));
        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
@@ -128,7 +133,7 @@ public class HomeFragment extends Fragment {
         horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
         horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
         horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
+        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"Fruits and Vegetables","",""));
 
         homePageRecycleView=view.findViewById(R.id.home_page_recyclar_view);
         LinearLayoutManager homePageRecycleViewLayoutManager=new LinearLayoutManager(getContext());

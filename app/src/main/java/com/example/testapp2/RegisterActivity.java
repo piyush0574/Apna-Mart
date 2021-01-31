@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class RegisterActivity extends AppCompatActivity {
     private FrameLayout frameLayout;
     private FirebaseAuth auth;
+    public static Boolean setSignUpFragment=false;
     public static  boolean OnResetPasswordFragment=false;
 
     @Override
@@ -27,7 +28,16 @@ public class RegisterActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_register);
         frameLayout=findViewById(R.id.register_framelayout);
-        setDefaultFragment(new SignInFragment());
+        if(setSignUpFragment==true)
+        {
+            setSignUpFragment=false;
+            setDefaultFragment(new SignUpFragment());
+
+        }
+        else {
+            setDefaultFragment(new SignInFragment());
+        }
+
 
     }
     private  void setDefaultFragment(Fragment fragment)

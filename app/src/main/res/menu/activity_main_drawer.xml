@@ -12,10 +12,10 @@
             android:id="@+id/nav_myorders"
             android:icon="@mipmap/my_orders"
             android:title="My Orders" />
-        <item
-            android:id="@+id/nav_myrewards"
-            android:icon="@mipmap/my_rewards"
-            android:title="My Rewards" />
+<!--        <item-->
+<!--            android:id="@+id/nav_myrewards"-->
+<!--            android:icon="@mipmap/my_rewards"-->
+<!--            android:title="My Rewards" />-->
         <item
             android:id="@+id/nav_mycart"
             android:icon="@mipmap/cart_white"

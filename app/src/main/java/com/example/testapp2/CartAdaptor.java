@@ -1,8 +1,11 @@
 package com.example.testapp2;
 
+import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -115,7 +118,34 @@ public class CartAdaptor extends RecyclerView.Adapter{
             productCuttedprice.setText(CP);
             productPrice.setText(PP);
             percentageDiscount.setText(PD+" %");
-            quantity.setText("Qty: "+Quantity);
+            quantity.setText("Qty:"+1);
+            quantity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog quantityDialog=new Dialog(itemView.getContext());
+                    quantityDialog.setContentView(R.layout.quantity_dialog_layout);
+                    quantityDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    quantityDialog.setCancelable(false);
+                    EditText quantityNumber=quantityDialog.findViewById(R.id.quantity_number);
+                    Button cancelBtn=quantityDialog.findViewById(R.id.cancel_in_btn_dilaogbox);
+                    Button okBtn=quantityDialog.findViewById(R.id.Ok_up_btn_dilaogbox);
+                    cancelBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            quantityDialog.dismiss();
+                        }
+                    });
+                    okBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            quantity.setText("Qty: "+quantityNumber.getText());
+                            quantityDialog.dismiss();
+                        }
+                    });
+                    quantityDialog.show();
+
+                }
+            });
 
         }
     }

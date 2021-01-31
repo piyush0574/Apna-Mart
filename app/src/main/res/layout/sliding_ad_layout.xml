@@ -9,7 +9,7 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/banner_slider_viewpager"
         android:layout_width="0dp"
-        android:layout_height="230dp"
+        android:layout_height="200dp"
         android:paddingLeft="2dp"
         android:paddingTop="0dp"
         android:background="@drawable/slider_background"

@@ -5,18 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.testapp2.HomeScreenActivity.showCart;
 
 public class ProductDetailsActivity extends AppCompatActivity
 {
@@ -26,6 +30,7 @@ public class ProductDetailsActivity extends AppCompatActivity
     private static boolean ALREADY_ADDED_TO_WISHLIST=false;
     private ViewPager productDetailsViewPager;
     private TabLayout productDetailTabbedLayout;
+    private Button buyNowBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class ProductDetailsActivity extends AppCompatActivity
 
         productDetailsViewPager=findViewById(R.id.product_details_view_pager);
         productDetailTabbedLayout=findViewById(R.id.product_details_tab_layout);
+        buyNowBtn=findViewById(R.id.buy_now_btn);
 
         // setting fragment for product section
 
@@ -81,7 +87,7 @@ public class ProductDetailsActivity extends AppCompatActivity
                 if(ALREADY_ADDED_TO_WISHLIST)
                 {
                     ALREADY_ADDED_TO_WISHLIST=false;
-                    addToWishListBtn.setSupportBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+                    addToWishListBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
 
                 }
 
@@ -94,6 +100,14 @@ public class ProductDetailsActivity extends AppCompatActivity
 
             }
 
+        });
+        buyNowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent deliveryIntent=new Intent(ProductDetailsActivity.this,DeliveryActivity.class);
+                startActivity(deliveryIntent);
+
+            }
         });
 
 
@@ -115,6 +129,12 @@ public class ProductDetailsActivity extends AppCompatActivity
 
         else if(id==R.id.main_cart_icon)
         {
+            Intent cartActivity=new Intent(ProductDetailsActivity.this,HomeScreenActivity.class);
+            showCart=true;
+            // here control is shifted from this to homeScreenActivity (Since my cart is part(fragment) of home screen
+            // with the help of showCart we will not load the default fragment of home screen i.e. HomeFragment
+            //Instead we will load MyCartFragment using if else
+            startActivity(cartActivity);
             return  true;
 
         }

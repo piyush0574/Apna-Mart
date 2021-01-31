@@ -29,26 +29,33 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_to_wishlist_btn"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:elevation="7dp"
+        app:borderWidth="0dp"
         android:clickable="true"
-        android:tint="#F90000"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_constraintBottom_toBottomOf="@+id/product_images_view_pager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="@color/colorPrimary"
-        app:srcCompat="@mipmap/my_wishlist" />
+        android:src="@drawable/wishlist_64"
+        android:backgroundTint="@color/colorAccent"
+        app:maxImageSize="30dp"/>
 
     <TextView
         android:id="@+id/product_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:text="Product Title"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:textStyle="italic"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="16dp"
+        android:padding="4dp"
+        android:text="Acer One 14 Pentium Gold - (4 GB/1 TB HDD/Windows 10 Home) Z2-485 Thin and Light Laptop  (14 inch, Silver, 1.8 kg)"
+        android:textColor="#756E6E"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_images_view_pager" />
 
@@ -57,10 +64,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="40dp"
         android:text="Rs. 4999"
         android:textColor="@color/black"
-        android:textSize="10sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_title" />
@@ -70,12 +77,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
         android:text="Rs. 3999"
         android:textColor="@color/btnRed"
-        android:textSize="10sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/original_price_tv"
-        app:layout_constraintStart_toEndOf="@+id/original_price_tv" />
+        app:layout_constraintStart_toEndOf="@+id/original_price_tv"
+        app:layout_constraintTop_toBottomOf="@+id/product_title" />
 
     <View
         android:id="@+id/divider4"
@@ -92,11 +101,13 @@
         android:id="@+id/code_available_imageview"
         android:layout_width="91dp"
         android:layout_height="49dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/discounted_price_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_images_view_pager"
+        app:layout_constraintHorizontal_bias="0.568"
+        app:layout_constraintStart_toEndOf="@+id/discounted_price_tv"
+        app:layout_constraintTop_toBottomOf="@+id/product_title"
         app:srcCompat="@mipmap/home_icon" />
 
     <TextView

@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 public class CategoryAdaptor extends RecyclerView.Adapter<CategoryAdaptor.ViewHolder> {
@@ -30,10 +33,10 @@ public class CategoryAdaptor extends RecyclerView.Adapter<CategoryAdaptor.ViewHo
     @Override
     public void onBindViewHolder(@NonNull CategoryAdaptor.ViewHolder viewHolder, int position) {
 // Here we will do all data binding
-        String icon=categoryModelList.get(position).getCategoryIconIink();
+        String iconLink=categoryModelList.get(position).getCategoryIconIink();
         String name=categoryModelList.get(position).getCategorynName();
         viewHolder.setCategory(name,position);
-        //viewHolder.setCategoryIcon(icon);
+        viewHolder.setCategoryIcon(iconLink);
 
 
     }
@@ -70,6 +73,14 @@ public class CategoryAdaptor extends RecyclerView.Adapter<CategoryAdaptor.ViewHo
 
                 }
             });
+        }
+        private void setCategoryIcon(String iconUrl)
+        {
+            if(!iconUrl.equals("null"))
+            {
+                Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.drawable.appliance_icon)).into(categoryIcon);
+            }
+
         }
     }
 }

@@ -29,7 +29,7 @@ public class CategoryActivity extends AppCompatActivity {
         categoryRecyclerView=findViewById(R.id.category_recycleview);
         List<SliderModel> sliderModelList=new ArrayList<SliderModel>();
         List<HorizonalProductScrollModel>horizonalProductScrollModelList=new ArrayList<>();
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.furniture_icon,"RedMi 5A","SD625","Rs.266"));
+        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"RedMi 5A","SD625","Rs.266"));
         horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.my_rewards,"RedMi 5A","SD625","Rs.266"));
         horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5A","SD625","Rs.266"));
         horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5A","SD625","Rs.266"));
@@ -63,7 +63,8 @@ public class CategoryActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu;  adds items to the action bar if it is present.
+        // here seach_icon_menu will be added action bar
         getMenuInflater().inflate(R.menu.search_icon, menu);
         return true;
     }

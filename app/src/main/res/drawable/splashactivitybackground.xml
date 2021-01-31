@@ -3,13 +3,13 @@
 
     <item>
         <shape>
-            <solid android:color="@color/MainBackGroundColor" />
+            <solid android:color="#fff" />
         </shape>
     </item>
 
     <item>
         <bitmap
-            android:src="@mipmap/logo"
+            android:src="@drawable/logo_new"
             android:gravity="center" />
     </item>
 </layer-list>

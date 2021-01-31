@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,12 +43,13 @@ public class HorizonalProductScrollAdaptor extends RecyclerView.Adapter<Horizona
 
     @Override
     public int getItemCount() {
-        if(horizonalProductScrollModelList.size()>8)
-            return 8;
-        else
-        {
-            return horizonalProductScrollModelList.size();
-        }
+//        if(horizonalProductScrollModelList.size()>8)
+//            return 8;
+//        else
+//        {
+//            return horizonalProductScrollModelList.size();
+//        }
+        return horizonalProductScrollModelList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -66,6 +68,7 @@ public class HorizonalProductScrollAdaptor extends RecyclerView.Adapter<Horizona
                     itemView.getContext().startActivity(productDetailIntent);
                 }
             });
+
 
         }
         private void setProductImage(int resource)

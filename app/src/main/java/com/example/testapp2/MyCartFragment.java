@@ -1,8 +1,8 @@
 package com.example.testapp2;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class MyCartFragment extends Fragment {
         // Required empty public constructor
     }
     private RecyclerView cartItemRecycleView;
+    private Button continueBtn;
 
     /**
      * Use this factory method to create a new instance of
@@ -72,7 +74,6 @@ public class MyCartFragment extends Fragment {
         // with the help of one recycle view and linearlayout manager ,we will inflate both layouts
         // for cart and total price sections
         // v29
-
        List<CartItemModal>cartItemModalList=new ArrayList<>();
         cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_1,"Redmi K20","Rs.20000/-","Rs.18000/-",2,18));
         cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_2,"Redmi K19","Rs.20000/-","Rs.18000/-",2,18));
@@ -90,6 +91,14 @@ public class MyCartFragment extends Fragment {
         CartAdaptor cartAdaptor=new CartAdaptor(cartItemModalList);
         cartItemRecycleView.setAdapter(cartAdaptor);
         cartAdaptor.notifyDataSetChanged();
+        continueBtn=view.findViewById(R.id.cart_continue_btn);
+        continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent address=new Intent(getContext(), AddAddressActivity.class);
+                getContext().startActivity(address);
+            }
+        });
         return view;
 
 

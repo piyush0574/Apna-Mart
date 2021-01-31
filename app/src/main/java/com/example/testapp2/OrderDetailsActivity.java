@@ -20,7 +20,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back key
 
     }
-
+// This is for back arrow on menu bar and onbackpress is for mobile phone back button
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -31,4 +31,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

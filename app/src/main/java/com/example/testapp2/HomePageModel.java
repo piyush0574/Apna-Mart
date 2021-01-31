@@ -35,20 +35,20 @@ public class HomePageModel  {
     }
     // This is will be bannner slider
     //start of strip ad
-    private int resource;
+    private String resource;
     private String backgroundcolor;
 
-    public HomePageModel(int type, int resource, String backgroundcolor) {
+    public HomePageModel(int type, String resource, String backgroundcolor) {
         this.type = type;
         this.resource = resource;
         this.backgroundcolor = backgroundcolor;
     }
 
-    public int getResource() {
+    public String getResource() {
         return resource;
     }
 
-    public void setResource(int resource) {
+    public void setResource(String resource) {
         this.resource = resource;
     }
 

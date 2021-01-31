@@ -72,7 +72,7 @@ public class MyWishlistFragment extends Fragment {
         wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","13 %","COD Available"));
         wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","12 %","COD Available"));
         wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","18 %","COD Not Available"));
-        WishlistAdaptor wishlistAdaptor=new WishlistAdaptor(wishListModalList);
+        WishlistAdaptor wishlistAdaptor=new WishlistAdaptor(wishListModalList,true);
         wishlistRecycleView.setAdapter(wishlistAdaptor);
         wishlistAdaptor.notifyDataSetChanged();
         return view;

@@ -1,14 +1,15 @@
 package com.example.testapp2;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import static com.example.testapp2.RegisterActivity.setSignUpFragment;
+
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -30,13 +33,17 @@ public class HomeScreenActivity extends AppCompatActivity
     private FrameLayout frameLayout;
     private static  final int HOME_FRAGMENT=0;
     private static  final int CART_FRAGMENT=1;
-    private static   int CURRENT_FRAGMENT=-1;
-    private static   int MYORDER_FRAGMENT=2;
-    private static   int MYWISHLIST_FRAGMENT=3;
+    private   int CURRENT_FRAGMENT=-1;
+    private static  final int MYORDER_FRAGMENT=2;
+    private static final  int MYWISHLIST_FRAGMENT=3;
+    private static final  int MYACCOUNT_FRAGMENT=4;
+    public static boolean showCart=false;
+
 
     private DrawerLayout  drawer;
     private NavigationView navigationView ;
     private ImageView actionBarLogo;
+    private  NavController navController;
 
 
     @Override
@@ -60,16 +67,30 @@ public class HomeScreenActivity extends AppCompatActivity
          frameLayout=findViewById(R.id.main_framelayout);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setDrawerLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true); // first item of navtree is selected (video14)
-        setFragment(new HomeFragment(),HOME_FRAGMENT);
+        // first item of navtree is selected (video14)
+        if(showCart) // this is for cart option in productDetailsActvity
+        {
+            drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            goToFragment("My Cart",new MyCartFragment(),-2);
+
+        }
+        else
+        {
+            //  If we have default fragment as homefragment,then enable the hamburger button and lock app drawer
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                    .setDrawerLayout(drawer)
+                    .build();
+             navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+            NavigationUI.setupWithNavController(navigationView, navController);
+            navigationView.setNavigationItemSelectedListener(this);
+            navigationView.getMenu().getItem(0).setChecked(true);
+            //
+            setFragment(new HomeFragment(),HOME_FRAGMENT);  // default fragment for homeactivity
+        }
+
     }
 
     @Override
@@ -83,11 +104,21 @@ public class HomeScreenActivity extends AppCompatActivity
         {
             if(CURRENT_FRAGMENT==HOME_FRAGMENT)
             {
+                CURRENT_FRAGMENT=-1;
                 super.onBackPressed();
             }
             else
             {
-                goToFragment("",new HomeFragment(),HOME_FRAGMENT);
+                if(showCart)
+                {
+                   showCart=false ;
+                   finish();
+                }
+                else
+                {
+                    goToFragment("",new HomeFragment(),HOME_FRAGMENT);
+                }
+
             }
 
         }
@@ -120,6 +151,34 @@ public class HomeScreenActivity extends AppCompatActivity
 
         else if(id==R.id.main_notification_icon)
         {
+            // only for testing
+            // creating dialog boc
+            final Dialog signIndialog=new Dialog(HomeScreenActivity.this);
+            signIndialog.setContentView(R.layout.sign_in_dialog_box);
+            signIndialog.setCancelable(true);
+            signIndialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            Button signInBtn=signIndialog.findViewById(R.id.sign_in_btn_dilaogbox);
+            Button signUpBtn=signIndialog.findViewById(R.id.sign_up_btn_dilaogbox);
+            Intent registerIntent=new Intent(HomeScreenActivity.this,RegisterActivity.class);
+            signInBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSignUpFragment=false;
+                    signIndialog.dismiss();
+                    startActivity(registerIntent);
+
+                }
+            });
+            signUpBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signIndialog.dismiss();
+                    setSignUpFragment=true;
+                    startActivity(registerIntent);
+
+                }
+            });
+            signIndialog.show();
             return  true;
 
         }
@@ -128,6 +187,15 @@ public class HomeScreenActivity extends AppCompatActivity
             goToFragment("My cart",new MyCartFragment(),CART_FRAGMENT);
             return true;
 
+        }
+        else if(id==android.R.id.home)
+        {
+            if(showCart)
+            {
+                showCart=false;
+                finish();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
 
@@ -176,11 +244,11 @@ public class HomeScreenActivity extends AppCompatActivity
 
         }
 
-        else if(id==R.id.nav_myrewards)
-        {
-            return  true;
-
-        }
+//        else if(id==R.id.nav_myrewards)
+//        {
+//            return  true;
+//
+//        }
         else if(id==R.id.nav_mycart)
         {
             goToFragment("My cart",new MyCartFragment(),CART_FRAGMENT);
@@ -189,12 +257,13 @@ public class HomeScreenActivity extends AppCompatActivity
         }
         else if(id==R.id.nav_mywishlist)
         {
-            goToFragment("My cart",new MyWishlistFragment(),MYWISHLIST_FRAGMENT);
+            goToFragment("My WishList",new MyWishlistFragment(),MYWISHLIST_FRAGMENT);
             return true;
 
         }
         else if(id==R.id.nav_myaccount)
         {
+            goToFragment("My Account",new MyAccountFragment(),MYACCOUNT_FRAGMENT);
             return true;
 
         }

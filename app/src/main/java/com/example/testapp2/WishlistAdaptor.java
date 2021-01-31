@@ -1,5 +1,6 @@
 package com.example.testapp2;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,12 @@ import java.util.List;
 
 public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.ViewHolder>
 {
+    private boolean wishlist;
     List<WishListModal>wishListModalList;
 
-    public WishlistAdaptor(List<WishListModal> wishListModalList) {
+    public WishlistAdaptor(List<WishListModal> wishListModalList,boolean wishlist) {
         this.wishListModalList = wishListModalList;
+        this.wishlist=wishlist;
     }
 
     @NonNull
@@ -58,12 +61,29 @@ public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.ViewHo
             percentageDiscount=itemView.findViewById(R.id.percent_discount_wishist);
             paymentmethod=itemView.findViewById(R.id.payment_method_wishlist);
             ImageView deleteBtn = itemView.findViewById(R.id.delete_wishlist_icon);
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
+            if(wishlist)
+            {
+                deleteBtn.setVisibility(View.VISIBLE);
+                deleteBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(itemView.getContext(),"Delete Pressed",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else
+            {
+                deleteBtn.setVisibility(View.GONE);
+            }
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(),"Delete Pressed",Toast.LENGTH_SHORT).show();
+                    Intent productDetailsIntent=new Intent(itemView.getContext(),ProductDetailsActivity.class);
+                    itemView.getContext().startActivity(productDetailsIntent);
+
                 }
             });
+
         }
         private void setMyWishList(int resource,String title,String CP,String DP,String perDiscount,String payment)
         {
