@@ -1,7 +1,10 @@
 package com.example.testapp2;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
@@ -10,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -65,9 +70,6 @@ public class HomeScreenActivity extends AppCompatActivity
           drawer = findViewById(R.id.drawer_layout);
           navigationView = findViewById(R.id.nav_view);
          frameLayout=findViewById(R.id.main_framelayout);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        // first item of navtree is selected (video14)
         if(showCart) // this is for cart option in productDetailsActvity
         {
             drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
@@ -82,7 +84,7 @@ public class HomeScreenActivity extends AppCompatActivity
                     R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                     .setDrawerLayout(drawer)
                     .build();
-             navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            navController = Navigation.findNavController(this, R.id.nav_host_fragment);
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
             NavigationUI.setupWithNavController(navigationView, navController);
             navigationView.setNavigationItemSelectedListener(this);
@@ -90,6 +92,12 @@ public class HomeScreenActivity extends AppCompatActivity
             //
             setFragment(new HomeFragment(),HOME_FRAGMENT);  // default fragment for homeactivity
         }
+
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        // first item of navtree is selected (video14)
+
+
 
     }
 
@@ -274,9 +282,22 @@ public class HomeScreenActivity extends AppCompatActivity
             return true;
 
         }
+        else if(id==R.id.nav_share)
+        {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,"Hey I am sharing you R Mart Application!");
+            sendIntent.setType("text/plain");
+            Intent.createChooser(sendIntent,"Share via");
+            drawer.closeDrawer(GravityCompat.START,true); // to close drawer
+            invalidateOptionsMenu(); // to remove cart and other option from menu bar
+            // this will call OncreateMenu again
+            startActivity(sendIntent);
+        }
+
         else if(id==R.id.nav_signout)
         {
-            return true;
+           return true ;
 
         }
         return true;

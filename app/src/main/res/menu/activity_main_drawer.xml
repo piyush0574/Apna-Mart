@@ -25,6 +25,10 @@
             android:icon="@mipmap/my_wishlist"
             android:title="My WishLists"/>
         <item
+            android:id="@+id/nav_share"
+            android:icon="@mipmap/search"
+            android:title="Share"/>
+        <item
             android:id="@+id/nav_myaccount"
             android:icon="@mipmap/my_account"
             android:title="My Account"/>

@@ -8,6 +8,8 @@ public class HomePageModel  {
     public static final int STRIP_ADD_BANNER=1;
     public static final int HORIZONTAL_PRODUCT_VIEW=2;
     public static final int GRID_PRODUCT_VIEW=3;
+    public static final int CATEGORY_GRID_VIEW=4;
+    private String backgroundcolor;
 
   // This is will be bannner slider
 
@@ -36,7 +38,6 @@ public class HomePageModel  {
     // This is will be bannner slider
     //start of strip ad
     private String resource;
-    private String backgroundcolor;
 
     public HomePageModel(int type, String resource, String backgroundcolor) {
         this.type = type;
@@ -59,13 +60,15 @@ public class HomePageModel  {
     public void setBackgroundcolor(String backgroundcolor) {
         this.backgroundcolor = backgroundcolor;
     }
+    // strip ad banner end
     // horizontal product layout And Grid Product
     private String title;
     private List<HorizonalProductScrollModel> horizontalProductScrollModelList;
 
-    public HomePageModel(int type, String title, List<HorizonalProductScrollModel> horizontalProductScrollModelList) {
+    public HomePageModel(int type, String title, List<HorizonalProductScrollModel> horizontalProductScrollModelList,String backgroundcolor) {
         this.type = type;
         this.title = title;
+        this.backgroundcolor=backgroundcolor;
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
     }
 
@@ -86,5 +89,21 @@ public class HomePageModel  {
     }
     // horizontal product layout
     //
+    // Loading category in grid layout
+    private List<CategoryModel>categoryModelList;
 
+    public HomePageModel(int type, String backgroundcolor, String title, List<CategoryModel> categoryModelList) {
+        this.type = type;
+        this.backgroundcolor = backgroundcolor;
+        this.title = title;
+        this.categoryModelList = categoryModelList;
+    }
+
+    public List<CategoryModel> getCategoryModelList() {
+        return categoryModelList;
+    }
+
+    public void setCategoryModelList(List<CategoryModel> categoryModelList) {
+        this.categoryModelList = categoryModelList;
+    }
 }

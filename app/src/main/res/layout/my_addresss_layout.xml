@@ -26,9 +26,9 @@
         android:id="@+id/view_all_address_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/teal_200"
         android:text="View all"
-        android:textColor="@color/btnRed"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,10 +82,12 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/curved_edge_background"
         android:text="Sign Out"
+        android:textSize="16sp"
+        android:textAllCaps="false"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
-        app:backgroundTint="@color/MainBackGroundColor"
+        app:backgroundTint="@color/teal_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

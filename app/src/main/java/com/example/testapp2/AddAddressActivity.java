@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +19,9 @@ public class AddAddressActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_address);
         Toolbar toolbar=findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
+        toolbar.setBackgroundResource(R.color.teal_200);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Add a new address");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

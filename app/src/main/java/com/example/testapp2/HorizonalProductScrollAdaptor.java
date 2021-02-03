@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 public class HorizonalProductScrollAdaptor extends RecyclerView.Adapter<HorizonalProductScrollAdaptor.ViewHolder> {
@@ -30,7 +33,7 @@ public class HorizonalProductScrollAdaptor extends RecyclerView.Adapter<Horizona
     @Override
     public void onBindViewHolder(@NonNull HorizonalProductScrollAdaptor.ViewHolder viewHolder, int position)
     {
-        int resource=horizonalProductScrollModelList.get(position).getProductImage();
+        String resource=horizonalProductScrollModelList.get(position).getProductImage();
         String title=horizonalProductScrollModelList.get(position).getProductTitle();
         String desciption=horizonalProductScrollModelList.get(position).getGetProductDescription();
         String price=horizonalProductScrollModelList.get(position).getProductPrice();
@@ -71,9 +74,10 @@ public class HorizonalProductScrollAdaptor extends RecyclerView.Adapter<Horizona
 
 
         }
-        private void setProductImage(int resource)
+        private void setProductImage(String resource)
         {
-            productImage.setImageResource(resource);
+            Glide.with(itemView.getContext()).load(resource)
+                    .apply(new RequestOptions().placeholder(R.mipmap.img_phone_1)).into(productImage);
         }
         private void setProductTitle(String resource)
         {

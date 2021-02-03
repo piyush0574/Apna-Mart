@@ -1,5 +1,8 @@
 package com.example.testapp2;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,6 +26,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.testapp2.DBqueries.categoryModelList;
+import static com.example.testapp2.DBqueries.firebaseFirestore;
+import static com.example.testapp2.DBqueries.homePageModalList;
+import static com.example.testapp2.DBqueries.loadCategories;
+import static com.example.testapp2.DBqueries.loadFragmentDdata;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,14 +49,15 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
     public HomeFragment() {
         // Required empty public constructor
     }
     private RecyclerView categoryRecycleView;
     private  CategoryAdaptor categoryAdaptor;
     private  RecyclerView homePageRecycleView;
-    private List<CategoryModel> categoryModelList;
-    private FirebaseFirestore firebaseFirestore;
+    private HomePageAdaptor homePageAdaptor;
+    private ImageView noInternetConnection;
 
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
@@ -72,94 +83,65 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_home, container, false);
-        // category section
-        categoryRecycleView=view.findViewById(R.id.category_recycleview);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        categoryRecycleView.setLayoutManager(layoutManager);
-        categoryModelList=new ArrayList<CategoryModel>();
 
-        categoryAdaptor=new CategoryAdaptor(categoryModelList);
-        categoryRecycleView.setAdapter(categoryAdaptor);
+        //Internet Check
+        noInternetConnection=view.findViewById(R.id.no_internet_connection);
+        ConnectivityManager connectivityManager=(ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        if(networkInfo!=null && networkInfo.isConnected()==true)
+        {
+            noInternetConnection.setVisibility(View.GONE);
+            // category section
+            categoryRecycleView=view.findViewById(R.id.category_recycleview);
+            LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            categoryRecycleView.setLayoutManager(layoutManager);
 
-        //firebase collections
-        firebaseFirestore=FirebaseFirestore.getInstance();
-        firebaseFirestore.collection("CATEGORIES").orderBy("Index").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if(task.isSuccessful())
-                    {
-                        for(QueryDocumentSnapshot documentSnapshot:task.getResult())
-                        {
-                            categoryModelList.add(new CategoryModel(documentSnapshot.get("icon").toString(),documentSnapshot.get("categoryName").toString()));
+            categoryAdaptor=new CategoryAdaptor(categoryModelList);
+            categoryRecycleView.setAdapter(categoryAdaptor);
+            if(categoryModelList.size()==0 || categoryModelList==null)
+            {
+                loadCategories(categoryAdaptor,getContext());
 
-                        }
-                        categoryAdaptor.notifyDataSetChanged();
-                        
-                    }
-                    else
-                    {
-                        String error=task.getException().getMessage();
-                        Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
-                    }
-                    }
-                });
+            }
+            else
+            {
+                categoryAdaptor.notifyDataSetChanged();
+            }
 
 
-        // category section
+   /// setting content for homepage
 
-        List<SliderModel>sliderModelList=new ArrayList<SliderModel>();
+            homePageRecycleView=view.findViewById(R.id.home_page_recyclar_view);
+            LinearLayoutManager homePageRecycleViewLayoutManager=new LinearLayoutManager(getContext());
+            homePageRecycleViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            homePageRecycleView.setLayoutManager(homePageRecycleViewLayoutManager);
 
+            homePageAdaptor=new HomePageAdaptor(homePageModalList);
+            homePageRecycleView.setAdapter(homePageAdaptor);
+            if(homePageModalList.size()==0 || homePageModalList==null)
+            {
+                loadFragmentDdata(homePageAdaptor,getContext());
 
-
-
-       List<HorizonalProductScrollModel>horizonalProductScrollModelList=new ArrayList<>();
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"Fruits and Vegetables","",""));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"Fruits and Vegetables","",""));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"Fruits and Vegetables","",""));
-
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.my_rewards,"RedMi 5A","SD625","Rs.266"));
-       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5A","SD625","Rs.266"));
-       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"RedMi 5A","SD625","Rs.266"));
-       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-       horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.furniture_icon,"RedMi 5A","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.my_rewards,"RedMi 5A","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5A","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5A","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"Fruits and Vegetables","",""));
-
-        homePageRecycleView=view.findViewById(R.id.home_page_recyclar_view);
-        LinearLayoutManager homePageRecycleViewLayoutManager=new LinearLayoutManager(getContext());
-        homePageRecycleViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        homePageRecycleView.setLayoutManager(homePageRecycleViewLayoutManager);
-
-        List<HomePageModel> homePageAdaptorList=new ArrayList<>();
-
-      // Here we are showing all our view with numbering index with different type of contructors
-      //  homePageAdaptorList.add(new HomePageModel(sliderModelList,0));
-        homePageAdaptorList.add(new HomePageModel(sliderModelList,0));
-        homePageAdaptorList.add(new HomePageModel(1,R.mipmap.slider_banner,"#000000"));
-        homePageAdaptorList.add(new HomePageModel(2,"Deals of the Day",horizonalProductScrollModelList));
-       homePageAdaptorList.add(new HomePageModel(3,"Deals of the Day",horizonalProductScrollModelList));
-       homePageAdaptorList.add(new HomePageModel(1,R.mipmap.slider_banner_ex,"#ff0000"));
-       homePageAdaptorList.add(new HomePageModel(2,"Deals of the Day3",horizonalProductScrollModelList));
-//        homePageAdaptorList.add(new HomePageModel(sliderModelList,0));
-
-        homePageAdaptorList.add(new HomePageModel(3,"Category",horizonalProductScrollModelList));
-       homePageAdaptorList.add(new HomePageModel(1,R.mipmap.slider_banner,"#ffff00"));
+            }
+            else
+            {
+                homePageAdaptor.notifyDataSetChanged();
+            }
 
 
-        //here we will create and set adaptor
-        HomePageAdaptor homePageAdaptor=new HomePageAdaptor(homePageAdaptorList);
-        homePageRecycleView.setAdapter(homePageAdaptor);
-        homePageAdaptor.notifyDataSetChanged();
+
+        }
+        else
+        {
+            Glide.with(this).load(R.drawable.no_internet).into(noInternetConnection);
+            noInternetConnection.setVisibility(View.VISIBLE);
+
+        }
+        //Internet Check
+
+
+
        return view;
 
     }

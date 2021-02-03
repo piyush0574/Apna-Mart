@@ -27,34 +27,12 @@ public class CategoryActivity extends AppCompatActivity {
         String title=getIntent().getStringExtra("CategoryName");
         getSupportActionBar().setTitle(title);
         categoryRecyclerView=findViewById(R.id.category_recycleview);
-        List<SliderModel> sliderModelList=new ArrayList<SliderModel>();
-        List<HorizonalProductScrollModel>horizonalProductScrollModelList=new ArrayList<>();
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.drawable.fruits,"RedMi 5A","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.my_rewards,"RedMi 5A","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5A","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5A","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-        horizonalProductScrollModelList.add(new HorizonalProductScrollModel(R.mipmap.ic_phone_iphone_24px,"RedMi 5wA","SD625","Rs.266"));
-
 
         LinearLayoutManager homePageRecycleViewLayoutManager=new LinearLayoutManager(this);
         homePageRecycleViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoryRecyclerView.setLayoutManager(homePageRecycleViewLayoutManager);
 
         List<HomePageModel> homePageAdaptorList=new ArrayList<>();
-        // Here we are showing all our view with numbering index with different type of contructors
-     //   homePageAdaptorList.add(new HomePageModel(sliderModelList,0));
-        homePageAdaptorList.add(new HomePageModel(1,R.mipmap.slider_banner,"#000000"));
-        homePageAdaptorList.add(new HomePageModel(2,"Deals of the Day",horizonalProductScrollModelList));
-        homePageAdaptorList.add(new HomePageModel(3,"Deals of the Day",horizonalProductScrollModelList));
-        homePageAdaptorList.add(new HomePageModel(1,R.mipmap.slider_banner_ex,"#ff0000"));
-        homePageAdaptorList.add(new HomePageModel(2,"Deals of the Day3",horizonalProductScrollModelList));
-        homePageAdaptorList.add(new HomePageModel(3,"Category",horizonalProductScrollModelList));
-        homePageAdaptorList.add(new HomePageModel(1,R.mipmap.slider_banner,"#ffff00"));
-
-
         //here we will create and set adaptor
         HomePageAdaptor homePageAdaptor=new HomePageAdaptor(homePageAdaptorList);
         categoryRecyclerView.setAdapter(homePageAdaptor);

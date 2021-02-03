@@ -2,21 +2,31 @@ package com.example.testapp2;
 
 public class HorizonalProductScrollModel
 {
-    private int productImage;
+    private String productID;
+    private String productImage;
     private String productTitle,productPrice,getProductDescription;
 
-    public HorizonalProductScrollModel(int productImage, String productTitle, String productPrice, String getProductDescription) {
+    public HorizonalProductScrollModel(String productID,String productImage, String productTitle,String productPrice, String getProductDescription) {
         this.productImage = productImage;
         this.productTitle = productTitle;
         this.productPrice = productPrice;
+        this.productID=productID;
         this.getProductDescription = getProductDescription;
     }
 
-    public int getProductImage() {
+    public String getProductID() {
+        return productID;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
+    }
+
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(int productImage) {
+    public void setProductImage(String productImage) {
         this.productImage = productImage;
     }
 
