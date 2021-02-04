@@ -40,7 +40,7 @@ public class GridProductLayoutAdaptor extends BaseAdapter {
         {
             view= LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_scroll_item_layout,null,false);
             ImageView productImage=view.findViewById(R.id.horizontal_product_image);
-            TextView productTitle=view.findViewById(R.id.horizontal_product_title);
+            TextView productTitle=view.findViewById(R.id.horizontal_product_layout_title);
             TextView productDesc=view.findViewById(R.id.horizontal_product_description);
             TextView productPrice=view.findViewById(R.id.horizontal_product_price);
             Glide.with(parent.getContext()).load(horizonalProductScrollModelList.get(position).getProductImage())

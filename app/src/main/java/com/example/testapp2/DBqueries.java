@@ -77,6 +77,7 @@ public class DBqueries {
                                 }
                                 else if((long)documentSnapshot.get("viewType")==2)
                                 {
+                                    List<WishListModal>viewAllProductList=new ArrayList<>();
                                     List<HorizonalProductScrollModel>horizonalProductScrollModelList=new ArrayList<>();
                                     long noOfProducts=(long)documentSnapshot.get("no_of_products");
                                     for(long i=1;i<=noOfProducts;i++)
@@ -86,13 +87,18 @@ public class DBqueries {
                                                 ,documentSnapshot.get("product_title_"+i).toString()
                                                 ,documentSnapshot.get("product_price_"+i).toString()
                                                 ,documentSnapshot.get("product_subtitle_"+i).toString()));
+                                        viewAllProductList.add(new WishListModal(documentSnapshot.get("product_image"+i).toString()
+                                                ,documentSnapshot.get("product_full_title_"+i).toString()
+                                        ,documentSnapshot.get("product_price_"+i).toString()
+                                        ,documentSnapshot.get("cutted_price_"+i).toString(),"18%"
+                                        ,(boolean)documentSnapshot.get("COD_"+i)
+                                        ,documentSnapshot.get("product_ID_"+i).toString()));
+
 
                                     }
-                                    homePageModalList.add(new HomePageModel(2,documentSnapshot.get("layoutTitle").toString()
-                                            ,horizonalProductScrollModelList
-                                            ,documentSnapshot.get("layout_background").toString()));
+                                    homePageModalList.add(new HomePageModel(2,documentSnapshot.get("layoutTitle").toString(),horizonalProductScrollModelList,documentSnapshot.get("layout_background").toString(),viewAllProductList));
 
-
+                                    // We will fetch list for  view all button (here we are using wishlist modal)
 
                                 }
                                 else if((long)documentSnapshot.get("viewType")==3)

@@ -1,23 +1,26 @@
 package com.example.testapp2;
 
 public class WishListModal {
-    private  int productImage;
-    private String productTitle,discountPrice,cuttedPrice,percentDiscount,paymentMethod;
+    private String productImage;
+    private String productTitle, discountPrice, cuttedPrice, percentDiscount;
+    private boolean COD;
+    private String productId;
 
-    public WishListModal(int productImage, String productTitle, String discountPrice, String cuttedPrice, String percentDiscount, String paymentMethod) {
+    public WishListModal(String productImage, String productTitle, String discountPrice, String cuttedPrice, String percentDiscount, boolean COD, String productId) {
         this.productImage = productImage;
         this.productTitle = productTitle;
         this.discountPrice = discountPrice;
         this.cuttedPrice = cuttedPrice;
         this.percentDiscount = percentDiscount;
-        this.paymentMethod = paymentMethod;
+        this.COD = COD;
+        this.productId = productId;
     }
 
-    public int getProductImage() {
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(int productImage) {
+    public void setProductImage(String productImage) {
         this.productImage = productImage;
     }
 
@@ -53,11 +56,20 @@ public class WishListModal {
         this.percentDiscount = percentDiscount;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public boolean isCOD() {
+        return COD;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setCOD(boolean COD) {
+        this.COD = COD;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 }
+

@@ -61,11 +61,10 @@ public class HomePageModel  {
         this.backgroundcolor = backgroundcolor;
     }
     // strip ad banner end
-    // horizontal product layout And Grid Product
+    // Grid Product
     private String title;
     private List<HorizonalProductScrollModel> horizontalProductScrollModelList;
-
-    public HomePageModel(int type, String title, List<HorizonalProductScrollModel> horizontalProductScrollModelList,String backgroundcolor) {
+    public HomePageModel(int type, String title, List<HorizonalProductScrollModel> horizontalProductScrollModelList, String backgroundcolor) {
         this.type = type;
         this.title = title;
         this.backgroundcolor=backgroundcolor;
@@ -87,8 +86,28 @@ public class HomePageModel  {
     public void setHorizontalProductScrollModelList(List<HorizonalProductScrollModel> horizontalProductScrollModelList) {
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
     }
-    // horizontal product layout
-    //
+    // Grid Product
+
+    // horizontal product
+    private List<WishListModal> viewAllProductList; //  this list will be passed to view all activity
+    // when a user clicks on view all button
+    public HomePageModel(int type, String title, List<HorizonalProductScrollModel> horizontalProductScrollModelList,String backgroundcolor,List<WishListModal>viewAllList) {
+        this.type = type;
+        this.title = title;
+        this.backgroundcolor=backgroundcolor;
+        this.horizontalProductScrollModelList = horizontalProductScrollModelList;
+        this.viewAllProductList=viewAllList;
+    }
+
+    public List<WishListModal> getViewAllProductList() {
+        return viewAllProductList;
+    }
+
+    public void setViewAllProductList(List<WishListModal> viewAllProductList) {
+        this.viewAllProductList = viewAllProductList;
+    }
+    // horizontal product
+
     // Loading category in grid layout
     private List<CategoryModel>categoryModelList;
 

@@ -3,7 +3,6 @@ package com.example.testapp2;
 // REST VARIABLE WE WILL ACCESS FROM HOME FRAGMENT SINCE WE ALREADY HAVE CREATED ADAPTOR FOR RESPECTIVE VIEWS
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -14,9 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.gridlayout.widget.GridLayout;
-import android.widget.GridView;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static com.example.testapp2.ViewAllActivity.horizonalProductScrollModelList;
 
 public class HomePageAdaptor extends RecyclerView.Adapter {
     private List<HomePageModel> homePageModelList;
@@ -89,7 +85,8 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
                 String titleHorizontalView = homePageModelList.get(position).getTitle();
                 String horizontallayoutColor = homePageModelList.get(position).getBackgroundcolor();
                 List<HorizonalProductScrollModel> horizonalProductScrollModelList = homePageModelList.get(position).getHorizontalProductScrollModelList();
-                ((HorizontalProductViewHolder) viewHolder).setHorizontalProductLayout(horizonalProductScrollModelList, titleHorizontalView, horizontallayoutColor);
+                List<WishListModal>viewAllProductList=homePageModelList.get(position).getViewAllProductList();
+                ((HorizontalProductViewHolder) viewHolder).setHorizontalProductLayout(horizonalProductScrollModelList, titleHorizontalView, horizontallayoutColor,viewAllProductList);
                 break;
             case HomePageModel.GRID_PRODUCT_VIEW:
                 String titleGridView = homePageModelList.get(position).getTitle();
@@ -98,11 +95,10 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
                 ((GridProductViewHolder) viewHolder).setGridLayout(gridProductScrollModelList, titleGridView, gridlayoutColor);
                 break;
             case HomePageModel.CATEGORY_GRID_VIEW:
-                String titleCategoryGridView = "Category";
+                String titleCategoryGridView = "SHOP BY CATEGORY";
                 String cateGridlayoutColor = "#FFEFD5";
                 List<CategoryModel> categoryModelList = homePageModelList.get(position).getCategoryModelList();
                 ((CateGridProductViewHolder) viewHolder).setCategoryGridLayout(categoryModelList, titleCategoryGridView, cateGridlayoutColor);
-                String te="pk";
                 break;
             default:
                 return;
@@ -276,27 +272,26 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
 
     public class HorizontalProductViewHolder extends RecyclerView.ViewHolder {
         ////Horizontal Product Layout
-        public TextView horizontalLayoutTitle;
+        private TextView htitle;
         private Button horizontalLayoutViewAllBtn;
         private RecyclerView horizontalRecycleView;
-        private ConstraintLayout constraintLayout;
+      private ConstraintLayout constraintLayout2;
 
         public HorizontalProductViewHolder(@NonNull View itemView) {
             super(itemView);
             //here we have accessed all views and now we will set data
-            horizontalLayoutTitle = (TextView) itemView.findViewById(R.id.horizontal_product_title);
+            htitle = itemView.findViewById(R.id.horizontal_scroll_layout_title);
             horizontalLayoutViewAllBtn = itemView.findViewById(R.id.horizonal_layout_view_all_btn);
             horizontalRecycleView = itemView.findViewById(R.id.horizonal_layout_recycle_view);
-            constraintLayout = itemView.findViewById(R.id.container_horizontal_product);
+            constraintLayout2 = itemView.findViewById(R.id.container_horizontal_product);
             horizontalRecycleView.setRecycledViewPool(recycledViewPool);
 
 
         }
 
-        public void setHorizontalProductLayout(List<HorizonalProductScrollModel> horizonalProductScrollModelList, String title, String color) {
-
-            horizontalLayoutTitle.setText(title);
-            constraintLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
+        public void setHorizontalProductLayout(List<HorizonalProductScrollModel> horizonalProductScrollModelList, final String title, String color,List<WishListModal>viewAllProductList) {
+              htitle.setText(title);
+              constraintLayout2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
             if (horizonalProductScrollModelList.size() < 8) {
                 horizontalLayoutViewAllBtn.setVisibility(View.INVISIBLE);
             } else {
@@ -304,8 +299,10 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
                 horizontalLayoutViewAllBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        ViewAllActivity.wishListModalList=viewAllProductList;
                         Intent viewAllIntent = new Intent(itemView.getContext(), ViewAllActivity.class);
                         viewAllIntent.putExtra("LAYOUTCODE", 0); // 0 FOR RECYCLEVIEW CODE
+                        viewAllIntent.putExtra("title", title);
                         itemView.getContext().startActivity(viewAllIntent);
                     }
                 });
@@ -347,7 +344,7 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
             // for loop to set value of all 8 children layout of grid layout
             for (int x = 0; x < horizonalProductScrollModelList.size(); x++) {
                 ImageView productImage = gridLayout.getChildAt(x).findViewById(R.id.horizontal_product_image);  //
-                TextView productTitle = gridLayout.getChildAt(x).findViewById(R.id.horizontal_product_title);  //
+                TextView productTitle = gridLayout.getChildAt(x).findViewById(R.id.horizontal_product_layout_title);  //
                 TextView productDesc = gridLayout.getChildAt(x).findViewById(R.id.horizontal_product_description);  //
                 TextView productPrice = gridLayout.getChildAt(x).findViewById(R.id.horizontal_product_price);  //
                 Glide.with(itemView.getContext()).load(horizonalProductScrollModelList.get(x).getProductImage()).apply(new RequestOptions().placeholder(R.mipmap.home_icon)).into(productImage);

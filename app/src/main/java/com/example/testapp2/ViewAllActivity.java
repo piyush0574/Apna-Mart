@@ -19,6 +19,7 @@ public class ViewAllActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private GridView gridView;
     public static List<HorizonalProductScrollModel>horizonalProductScrollModelList;
+    public static List<WishListModal>wishListModalList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +42,6 @@ public class ViewAllActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(linearLayout);
             // we are using wishlist adaptor to create the list
 
-            List<WishListModal> wishListModalList=new ArrayList<>();
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","18 %","COD Available"));
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","17 %","COD Available"));
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","13 %","COD Available"));
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","12 %","COD Available"));
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","18 %","COD Not Available"));
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","18 %","COD Available"));
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","17 %","COD Available"));
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","13 %","COD Available"));
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","12 %","COD Available"));
-            wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","18 %","COD Not Available"));
             WishlistAdaptor wishlistAdaptor=new WishlistAdaptor(wishListModalList,false);
             recyclerView.setAdapter(wishlistAdaptor);
             wishlistAdaptor.notifyDataSetChanged();

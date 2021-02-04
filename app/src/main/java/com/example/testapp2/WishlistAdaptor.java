@@ -11,6 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.ViewHolder>
@@ -33,13 +36,13 @@ public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.ViewHo
     @Override
     public void onBindViewHolder(@NonNull WishlistAdaptor.ViewHolder holder, int position)
     {
-        int resource=wishListModalList.get(position).getProductImage();
+        String resource=wishListModalList.get(position).getProductImage();
         String title=wishListModalList.get(position).getProductTitle();
         String discountedPrice=wishListModalList.get(position).getDiscountPrice();
         String cuttedPrice=wishListModalList.get(position).getCuttedPrice();
         String percentageDis=wishListModalList.get(position).getPercentDiscount();
-        String paymentMethod=wishListModalList.get(position).getPaymentMethod();
-        holder.setMyWishList(resource,title,cuttedPrice,discountedPrice,percentageDis,paymentMethod);
+        boolean COD=wishListModalList.get(position).isCOD();
+        holder.setMyWishList(resource,title,cuttedPrice,discountedPrice,percentageDis,COD);
 
     }
 
@@ -85,14 +88,22 @@ public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.ViewHo
             });
 
         }
-        private void setMyWishList(int resource,String title,String CP,String DP,String perDiscount,String payment)
+        private void setMyWishList(String resource,String title,String CP,String DP,String perDiscount,boolean payment)
         {
-            productImage.setImageResource(resource);
+            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions()).placeholder(R.mipmap.home_icon).into(productImage);
             productTitle.setText(title);
             discountedPrice.setText(DP);
             cuttedPrice.setText(CP);
             percentageDiscount.setText(perDiscount);
-            paymentmethod.setText(payment);
+            if(payment)
+            {
+                paymentmethod.setText("COD available");
+            }
+            else
+            {
+                paymentmethod.setText("COD not available");
+            }
+//
 
         }
     }

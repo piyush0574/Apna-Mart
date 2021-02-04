@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,7 +61,7 @@ public class HorizonalProductScrollAdaptor extends RecyclerView.Adapter<Horizona
             super(itemView);
             productImage=itemView.findViewById(R.id.horizontal_product_image);
             productDescription=itemView.findViewById(R.id.horizontal_product_description);
-            productTitle=itemView.findViewById(R.id.horizontal_product_title);
+            productTitle=itemView.findViewById(R.id.horizontal_product_layout_title);
             productPrice=itemView.findViewById(R.id.horizontal_product_price);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
