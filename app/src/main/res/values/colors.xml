@@ -9,6 +9,7 @@
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorSecond">#FFFFFF</color>
     <color name="backgroudTintEditText">#B3FFFFFF</color>
+    <color name="rulerGrayColor">#554949</color>
     <color name="textColorHint">#70FFFFFF</color>
     <color name="textColorHintBlack">#B32B2B2B</color>
     <color name="btnRed">#9f0000</color>

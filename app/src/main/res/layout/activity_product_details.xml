@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/product_images_layout"  />
+            <include layout="@layout/product_images_layout" />
 
             <include layout="@layout/product_description_layout" />
 
@@ -57,7 +57,6 @@
         android:layout_height="56dp"
         android:orientation="horizontal"
         android:elevation="8dp"
-        android:background="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -89,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="BUY NOW"
-            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/teal_200"
             android:textSize="16sp"
             android:stateListAnimator="@null"
             android:textColor="@color/colorAccent"

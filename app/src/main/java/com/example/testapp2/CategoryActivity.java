@@ -12,11 +12,16 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.testapp2.DBqueries.lists;
+import static com.example.testapp2.DBqueries.loadFragmentDdata;
+import static com.example.testapp2.DBqueries.loadedCategoriesNames;
 //video21
 
 public class CategoryActivity extends AppCompatActivity {
 
     private RecyclerView categoryRecyclerView;
+    private HomePageAdaptor homePageAdaptor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +36,29 @@ public class CategoryActivity extends AppCompatActivity {
         LinearLayoutManager homePageRecycleViewLayoutManager=new LinearLayoutManager(this);
         homePageRecycleViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoryRecyclerView.setLayoutManager(homePageRecycleViewLayoutManager);
+        int listPosition=0;
+        for (int x=0;x<loadedCategoriesNames.size();x++)
+        {
+            // if title is already accessd from data base ,then again re use same list
+            if(loadedCategoriesNames.get(x).equals(title.toUpperCase()))
+            {
+                listPosition=x;
+            }
+        }
+        if(listPosition==0) // if data is not  accessed
+        {
+            loadedCategoriesNames.add(title.toUpperCase());
+            lists.add(new ArrayList<HomePageModel>());
+            homePageAdaptor=new HomePageAdaptor(lists.get(loadedCategoriesNames.size()-1));
+            loadFragmentDdata(homePageAdaptor,this,loadedCategoriesNames.size()-1,title);
 
-        List<HomePageModel> homePageAdaptorList=new ArrayList<>();
+        }
+        else
+        {
+            homePageAdaptor=new HomePageAdaptor(lists.get(listPosition));
+
+        }
         //here we will create and set adaptor
-        HomePageAdaptor homePageAdaptor=new HomePageAdaptor(homePageAdaptorList);
         categoryRecyclerView.setAdapter(homePageAdaptor);
         homePageAdaptor.notifyDataSetChanged();
 

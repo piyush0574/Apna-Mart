@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +55,16 @@ public class ProductDespcriptionFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private TextView descriptionBody;
+    public static String productDescriptionData; // This varibale we
+    //will use in productactivity to send data to this fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_despcription, container, false);
+        View view= inflater.inflate(R.layout.fragment_product_despcription, container, false);
+        descriptionBody=view.findViewById(R.id.product_description_tv);
+        descriptionBody.setText(productDescriptionData);
+        return view;
     }
 }

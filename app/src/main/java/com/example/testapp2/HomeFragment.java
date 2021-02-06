@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,9 +30,10 @@ import java.util.List;
 
 import static com.example.testapp2.DBqueries.categoryModelList;
 import static com.example.testapp2.DBqueries.firebaseFirestore;
-import static com.example.testapp2.DBqueries.homePageModalList;
+import static com.example.testapp2.DBqueries.lists;
 import static com.example.testapp2.DBqueries.loadCategories;
 import static com.example.testapp2.DBqueries.loadFragmentDdata;
+import static com.example.testapp2.DBqueries.loadedCategoriesNames;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,18 +118,21 @@ public class HomeFragment extends Fragment {
             LinearLayoutManager homePageRecycleViewLayoutManager=new LinearLayoutManager(getContext());
             homePageRecycleViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             homePageRecycleView.setLayoutManager(homePageRecycleViewLayoutManager);
-
-            homePageAdaptor=new HomePageAdaptor(homePageModalList);
-            homePageRecycleView.setAdapter(homePageAdaptor);
-            if(homePageModalList.size()==0 || homePageModalList==null)
+            if(lists.size()==0 || lists==null)
             {
-                loadFragmentDdata(homePageAdaptor,getContext());
+                loadedCategoriesNames.add("HOME");
+                lists.add(new ArrayList<HomePageModel>());
+                homePageAdaptor=new HomePageAdaptor(lists.get(0));
+                loadFragmentDdata(homePageAdaptor,getContext(),0,"Home");
 
             }
             else
             {
+                homePageAdaptor=new HomePageAdaptor(lists.get(0));
                 homePageAdaptor.notifyDataSetChanged();
             }
+
+            homePageRecycleView.setAdapter(homePageAdaptor);
 
 
 
@@ -148,35 +153,4 @@ public class HomeFragment extends Fragment {
     // Banner Slider
 
 
-    public static class ProductImageAdaptor extends PagerAdapter {
-        private List<Integer>productImages;
-
-        public ProductImageAdaptor(List<Integer> productImages) {
-            this.productImages = productImages;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            ImageView productImageView=new ImageView(container.getContext());
-            productImageView.setImageResource(productImages.get(position));
-            container.addView(productImageView,0);
-            return productImageView;
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((ImageView)object);
-        }
-
-        @Override
-        public int getCount() {
-            return productImages.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view==object;
-        }
-    }
 }

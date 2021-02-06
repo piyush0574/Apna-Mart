@@ -6,10 +6,10 @@ public class ProductSpecificationModal {
     private String featureValue;
     private int type;
 
-    public ProductSpecificationModal(String featureName, String featureValue, int type) {
+    public ProductSpecificationModal(String featureName, String featureValue) {
         this.featureName = featureName;
         this.featureValue = featureValue;
-        this.type = type;
+
     }
 
     public String getFeatureName() {
@@ -28,15 +28,8 @@ public class ProductSpecificationModal {
         this.featureValue = featureValue;
     }
 
-    //specification body
-     // Multiple selection of layout on single fragment
-    //specification title
-    public static final int SPECIFICATION_TITLE=0;
-    public static final int SPECIFICATION_BODY=1;
-
     private String title;
-    public ProductSpecificationModal(int type, String title) {
-        this.type = type;
+    public ProductSpecificationModal(String title) {
         this.title = title;
     }
 

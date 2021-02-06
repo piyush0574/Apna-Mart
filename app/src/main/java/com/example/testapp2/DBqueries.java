@@ -17,7 +17,10 @@ import java.util.List;
 public class DBqueries {
     public static List<CategoryModel> categoryModelList=new ArrayList<CategoryModel>();
     public static FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
-    public static  List<HomePageModel> homePageModalList=new ArrayList<>();
+    public static List< List<HomePageModel>>lists=new ArrayList<>();
+    //This list will store data for all the lists of homemodal type.
+    // Video 54 (3)
+    public static List<String>loadedCategoriesNames=new ArrayList<>();
     public  static void loadCategories(final CategoryAdaptor categoryAdaptor,final Context context)
     {
         firebaseFirestore.collection("CATEGORIES").orderBy("Index").get()
@@ -43,10 +46,10 @@ public class DBqueries {
                 });
 
     }
-    public static void loadFragmentDdata(final HomePageAdaptor homePageAdaptor,final Context context)
+    public static void loadFragmentDdata(final HomePageAdaptor homePageAdaptor,final Context context,int index,String categoryName)
     {
         firebaseFirestore.collection("CATEGORIES")
-                .document("HOME")
+                .document(categoryName.toUpperCase())
                 .collection("TOP DEALS").orderBy("Index").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -66,12 +69,12 @@ public class DBqueries {
                                                 ,documentSnapshot.get("banner"+i+"_background").toString()));
 
                                     }
-                                    homePageModalList.add(new HomePageModel(sliderModelList,0));
+                                    lists.get(index).add(new HomePageModel(sliderModelList,0));
 
                                 }
                                 else if((long)documentSnapshot.get("viewType")==1)
                                 {
-                                    homePageModalList.add(new HomePageModel(1,documentSnapshot.get("strip_ad_banner").toString(),
+                                    lists.get(index).add(new HomePageModel(1,documentSnapshot.get("strip_ad_banner").toString(),
                                             documentSnapshot.get("strip_ad_background").toString()));
 
                                 }
@@ -96,7 +99,7 @@ public class DBqueries {
 
 
                                     }
-                                    homePageModalList.add(new HomePageModel(2,documentSnapshot.get("layoutTitle").toString(),horizonalProductScrollModelList,documentSnapshot.get("layout_background").toString(),viewAllProductList));
+                                    lists.get(index).add(new HomePageModel(2,documentSnapshot.get("layoutTitle").toString(),horizonalProductScrollModelList,documentSnapshot.get("layout_background").toString(),viewAllProductList));
 
                                     // We will fetch list for  view all button (here we are using wishlist modal)
 
@@ -114,7 +117,7 @@ public class DBqueries {
                                                 ,documentSnapshot.get("product_subtitle_"+i).toString()));
 
                                     }
-                                    homePageModalList.add(new HomePageModel(3,documentSnapshot.get("layoutTitle").toString()
+                                    lists.get(index).add(new HomePageModel(3,documentSnapshot.get("layoutTitle").toString()
                                             ,gridProductList
                                             ,documentSnapshot.get("layout_background").toString()));
 
@@ -124,7 +127,7 @@ public class DBqueries {
                                 else if((long)documentSnapshot.get("viewType")==4)
                                 {
                                   /// category grid
-                                    homePageModalList.add(new HomePageModel(4,"","",categoryModelList));
+                                    lists.get(index).add(new HomePageModel(4,"","",categoryModelList));
                                 }
                                 else
                                 {

@@ -29,6 +29,7 @@ public class ProductSpecificationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private RecyclerView productSpecificationRecycleView;
+    public static List<ProductSpecificationModal> productSpecificationModalList;
 
     public ProductSpecificationFragment() {
         // Required empty public constructor
@@ -70,30 +71,10 @@ public class ProductSpecificationFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_product_specification, container, false);
         productSpecificationRecycleView=view.findViewById(R.id.product_specification_recycle_view);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(view.getContext());
-       linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         productSpecificationRecycleView.setLayoutManager(linearLayoutManager);
 
-        // Dummy List
-        List<ProductSpecificationModal> productSpecificationModalList=new ArrayList<>();
-        productSpecificationModalList.add(new ProductSpecificationModal(0,"General"));
-        productSpecificationModalList.add(new ProductSpecificationModal("RAM","4GB",1));
-
-        productSpecificationModalList.add(new ProductSpecificationModal("ROM","14GB",1));
-        productSpecificationModalList.add(new ProductSpecificationModal("RAM2","4GB",1));
-        productSpecificationModalList.add(new ProductSpecificationModal("RAM3","4GB",1));
-        productSpecificationModalList.add(new ProductSpecificationModal("RAM4","4GB",1));
-
-        productSpecificationModalList.add(new ProductSpecificationModal("RAM","4GB",1));
-        productSpecificationModalList.add(new ProductSpecificationModal(0,"Special     v"));
-
-        productSpecificationModalList.add(new ProductSpecificationModal("ROM","14GB",1));
-        productSpecificationModalList.add(new ProductSpecificationModal("RAM2","4GB",1));
-        productSpecificationModalList.add(new ProductSpecificationModal("RAM3","4GB",1));
-        productSpecificationModalList.add(new ProductSpecificationModal("RAM4","4GB",1));
-        ;
-
-
-        ProductSpecificationAdaptor productSpecificationAdaptor=new ProductSpecificationAdaptor(productSpecificationModalList);
+        ProductSpecificationAdaptor productSpecificationAdaptor=new ProductSpecificationAdaptor(ProductDetailsActivity.productSpecificationModalList);
         productSpecificationRecycleView.setAdapter(productSpecificationAdaptor);
         productSpecificationAdaptor.notifyDataSetChanged();
 

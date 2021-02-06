@@ -392,7 +392,7 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
         }
 
         public void setCategoryGridLayout(List<CategoryModel> categoryModelList, String title, String color) {
-            gridLayoutTitle.setText("Category");
+            gridLayoutTitle.setText("SHOP BY CATEGORY");
             constraintLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
             for (int x = 0; x < 8; x++) {
                 ImageView categoryIcon = gridLayout.getChildAt(x).findViewById(R.id.category_icon);  //
@@ -400,12 +400,16 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
                 Glide.with(itemView.getContext()).load(categoryModelList.get(x).getCategoryIconIink()).apply(new RequestOptions().placeholder(R.mipmap.home_icon)).into(categoryIcon);
                 categoryTitle.setText(categoryModelList.get(x).getCategorynName());
                 String categoryName=categoryModelList.get(x).getCategorynName();
-                gridLayout.getChildAt(x).setOnClickListener(v -> {
-                    Intent categoryIntent = new Intent(itemView.getContext(), CategoryActivity.class);
-                    categoryIntent.putExtra("CategoryName",categoryName); // this way we pass data from one
-                    //activity to another CategoryName will act as key
-                    itemView.getContext().startActivity(categoryIntent);
-                });
+                if(!categoryName.equals("Home"))
+                {
+                    gridLayout.getChildAt(x).setOnClickListener(v -> {
+                        Intent categoryIntent = new Intent(itemView.getContext(), CategoryActivity.class);
+                        categoryIntent.putExtra("CategoryName",categoryName); // this way we pass data from one
+                        //activity to another CategoryName will act as key
+                        itemView.getContext().startActivity(categoryIntent);
+                    });
+                }
+
 
 
             }

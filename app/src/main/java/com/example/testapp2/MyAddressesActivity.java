@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ import static com.example.testapp2.DeliveryActivity.SELECT_ADDRESS;
 public class MyAddressesActivity extends AppCompatActivity {
     private RecyclerView myAddressesReclerview;
     private Button deliverHereBtn;
+    private LinearLayout addNewAddressBtn;
     private static AddressesAdaptor addressesAdaptor;
 
     @Override
@@ -33,6 +36,7 @@ public class MyAddressesActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("My Addresses");
         myAddressesReclerview=findViewById(R.id.address_recyclerview);
         deliverHereBtn=findViewById(R.id.deliver_here_btn);
+        addNewAddressBtn=findViewById(R.id.add_new_address_btn);
         LinearLayoutManager homePageRecycleViewLayoutManager=new LinearLayoutManager(this);
         homePageRecycleViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         myAddressesReclerview.setLayoutManager(homePageRecycleViewLayoutManager);
@@ -62,6 +66,13 @@ public class MyAddressesActivity extends AppCompatActivity {
         ((SimpleItemAnimator)myAddressesReclerview.getItemAnimator()).setSupportsChangeAnimations(false);  // willstop default fade in
         // animation
         addressesAdaptor.notifyDataSetChanged(); // refresh recyler view (entire list)
+        addNewAddressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addAddress=new Intent(MyAddressesActivity.this,AddAddressActivity.class);
+                startActivity(addAddress);
+            }
+        });
 
     }
     public static void Refreshitem(int deselect,int select) /// to refresh only selected item of layout
