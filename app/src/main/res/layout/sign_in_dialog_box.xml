@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/curved_edge_background"
     tools:layout_editor_absoluteY="25dp">
 
     <ImageView
@@ -16,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_new" />
+        app:srcCompat="@drawable/cart_mart_icon" />
 
     <TextView
         android:id="@+id/textView10"
@@ -26,7 +27,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Just few Steps away from your cart !"
-        android:textColor="@color/black"
+        android:textColor="@color/dark_green"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
+        android:background="@drawable/curved_edge_background"
         android:elevation="4dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import androidx.gridlayout.widget.GridLayout;
 
@@ -36,7 +34,6 @@ import java.util.TimerTask;
 public class HomePageAdaptor extends RecyclerView.Adapter {
     private List<HomePageModel> homePageModelList;
     private RecyclerView.RecycledViewPool recycledViewPool;
-    private int lastPosition=-1;
 
     public HomePageAdaptor(List<HomePageModel> homePageModelList) {
         this.homePageModelList = homePageModelList;
@@ -107,10 +104,7 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
                 return;
         }
 
-
-
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -353,40 +347,31 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
                 TextView productTitle = gridLayout.getChildAt(x).findViewById(R.id.horizontal_product_layout_title);  //
                 TextView productDesc = gridLayout.getChildAt(x).findViewById(R.id.horizontal_product_description);  //
                 TextView productPrice = gridLayout.getChildAt(x).findViewById(R.id.horizontal_product_price);  //
-                Glide.with(itemView.getContext()).load(horizonalProductScrollModelList.get(x).getProductImage()).apply(new RequestOptions().placeholder(R.drawable.icon_paceholder)).into(productImage);
+                Glide.with(itemView.getContext()).load(horizonalProductScrollModelList.get(x).getProductImage()).apply(new RequestOptions().placeholder(R.mipmap.home_icon)).into(productImage);
                 productTitle.setText(horizonalProductScrollModelList.get(x).getProductTitle());
                 productDesc.setText(horizonalProductScrollModelList.get(x).getGetProductDescription());
                 productPrice.setText("Rs. " + horizonalProductScrollModelList.get(x).getProductPrice() + " /-");
-                if(!title.equals(""))
-                {
-                    int finalX = x;
-                    gridLayout.getChildAt(x).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent porductDetailsIntent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
-                            porductDetailsIntent.putExtra("productID",horizonalProductScrollModelList.get(finalX).getProductID());
-                            itemView.getContext().startActivity(porductDetailsIntent);
-                        }
-                    });
-                }
-
+                gridLayout.getChildAt(x).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent porductDetailsIntent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
+                        itemView.getContext().startActivity(porductDetailsIntent);
+                    }
+                });
 
 
             }
-           if(!title.equals(""))
-           {
-               gridLayoutViewAllBtn.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       ViewAllActivity.horizonalProductScrollModelList = horizonalProductScrollModelList;
-                       Intent viewAllIntent = new Intent(itemView.getContext(), ViewAllActivity.class);
-                       viewAllIntent.putExtra("LAYOUTCODE", 1); // 1 FOR GRID VIEW ALL CODE
-                       viewAllIntent.putExtra("title", title);
-                       itemView.getContext().startActivity(viewAllIntent);
+            gridLayoutViewAllBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewAllActivity.horizonalProductScrollModelList = horizonalProductScrollModelList;
+                    Intent viewAllIntent = new Intent(itemView.getContext(), ViewAllActivity.class);
+                    viewAllIntent.putExtra("LAYOUTCODE", 1); // 1 FOR GRID VIEW ALL CODE
+                    viewAllIntent.putExtra("title", title);
+                    itemView.getContext().startActivity(viewAllIntent);
 
-                   }
-               });
-           }
+                }
+            });
         }
     }
 

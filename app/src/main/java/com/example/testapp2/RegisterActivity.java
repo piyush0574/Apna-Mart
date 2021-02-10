@@ -20,6 +20,12 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(RegisterActivity.this, HomeScreenActivity.class));
+            finish();
+        }
         setContentView(R.layout.activity_register);
         frameLayout=findViewById(R.id.register_framelayout);
         if(setSignUpFragment==true)
@@ -44,9 +50,6 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK)
-            SignUpFragment.isDisableSignUpCloseBtn=false;
-            SignInFragment.isDisableSignInCloseBtn=false;
-
             if(OnResetPasswordFragment)
             {
                 setFragment(new SignInFragment());

@@ -61,7 +61,6 @@ public class SignUpFragment extends Fragment {
     private Button signUpBtn;
     private ProgressBar progressBar;
     private FirebaseFirestore firebaseFirestore;
-    public static boolean isDisableSignUpCloseBtn=false;
     // TODO: Rename and change types and number of parameters
     public static SignUpFragment newInstance(String param1, String param2) {
         SignUpFragment fragment = new SignUpFragment();
@@ -86,26 +85,17 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_sign_up, container, false);
-        parentFrameLayout=getActivity().findViewById(R.id.register_framelayout);
         alreadyHaveAnAccount=view.findViewById(R.id.tv_already_have_an_account);
-        email=view.findViewById(R.id.sign_in_email);
-        fullName=view.findViewById(R.id.sign_up_fullname);
-        password=view.findViewById(R.id.sign_up_password);
-        confirmPassword=view.findViewById(R.id.sign_up_confirm_password);
-        closeBtn=view.findViewById(R.id.sign_up_close_btn);
-        signUpBtn=view.findViewById(R.id.sign_up_btn);
-        progressBar=view.findViewById(R.id.sign_up_progress_bar);
+        parentFrameLayout=getActivity().findViewById(R.id.register_framelayout);
+        email=getActivity().findViewById(R.id.sign_in_email);
+        fullName=getActivity().findViewById(R.id.sign_up_fullname);
+        password=getActivity().findViewById(R.id.sign_up_password);
+        confirmPassword=getActivity().findViewById(R.id.sign_up_confirm_password);
+        closeBtn=getActivity().findViewById(R.id.sign_in_close_btn);
+        signUpBtn=getActivity().findViewById(R.id.sign_up_btn);
+        progressBar=getActivity().findViewById(R.id.sign_up_progress_bar);
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
-        if(isDisableSignUpCloseBtn)
-        {
-            closeBtn.setVisibility(View.GONE);
-
-        }
-        else
-        {
-            closeBtn.setVisibility(View.VISIBLE);
-        }
         return view;
     }
     @Override
@@ -117,7 +107,16 @@ public class SignUpFragment extends Fragment {
                 setFragment(new SignInFragment());
             }
         });
-
+        alreadyHaveAnAccount=view.findViewById(R.id.tv_already_have_an_account);
+        parentFrameLayout=getActivity().findViewById(R.id.register_framelayout);
+        email=getActivity().findViewById(R.id.sign_in_email);
+        fullName=getActivity().findViewById(R.id.sign_up_fullname);
+        password=getActivity().findViewById(R.id.sign_up_password);
+        confirmPassword=getActivity().findViewById(R.id.sign_up_confirm_password);
+        closeBtn=getActivity().findViewById(R.id.sign_in_close_btn);
+        signUpBtn=getActivity().findViewById(R.id.sign_up_btn);
+        firebaseAuth=FirebaseAuth.getInstance();
+        firebaseFirestore=FirebaseFirestore.getInstance();
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -202,12 +201,6 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        isDisableSignUpCloseBtn=false;
-        SignInFragment.isDisableSignInCloseBtn=false;
     }
     private  void setFragment(Fragment fragment)
     {
@@ -335,26 +328,11 @@ public class SignUpFragment extends Fragment {
 
     }
     private void moveToHomeScreen()
-    {  if(isDisableSignUpCloseBtn)
     {
-        isDisableSignUpCloseBtn=false;
-        // if user has come from another activity other than homescreen actvity ,then make
-        // this isDisableSignUpCloseBtn as false which will enable the close btn
-//        it will not create a new home screen activity ,it will just return to  the current activity
-    }
-    else
-    {
-
-       // create a new activity and then finish it
         Intent mainIntent=new Intent(getActivity(),HomeScreenActivity.class);
-        isDisableSignUpCloseBtn=false;
         //checkpoints
         startActivity(mainIntent);
-    }
-
-        // once the user do succcesful sign in ,then again make close btn visible for future
         getActivity().finish();
-
 
     }
 

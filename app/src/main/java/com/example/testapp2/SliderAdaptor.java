@@ -32,7 +32,7 @@ public class SliderAdaptor extends PagerAdapter {
         bannerConatiner.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(sliderModelList.get(position).getBackgroundColor())));
         ImageView banner=view.findViewById(R.id.banner_slide);
 //        banner.setImageResource(sliderModelList.get(position).getBanner());
-        Glide.with(container.getContext()).load(sliderModelList.get(position).getBanner()).apply(new RequestOptions().placeholder(R.drawable.icon_paceholder)).into(banner);
+        Glide.with(container.getContext()).load(sliderModelList.get(position).getBanner()).apply(new RequestOptions().placeholder(R.mipmap.home_icon)).into(banner);
         container.addView(view,0);
         return view;
     }
