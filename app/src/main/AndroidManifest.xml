@@ -6,12 +6,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/bb"
         android:label="RMart"
-        android:roundIcon="@drawable/logo"
+        android:roundIcon="@drawable/bb"
         android:supportsRtl="true"
         android:theme="@style/Theme.TestApp2">
         <activity android:name=".ViewAllActivity" />

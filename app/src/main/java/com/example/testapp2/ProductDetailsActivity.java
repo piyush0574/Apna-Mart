@@ -21,12 +21,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.example.testapp2.HomeScreenActivity.showCart;
 
 public class ProductDetailsActivity extends AppCompatActivity
@@ -45,6 +46,8 @@ public class ProductDetailsActivity extends AppCompatActivity
     private ConstraintLayout productDetailsOnlyContanier;
     private ConstraintLayout tabbedProductDetailsContainer;
     private TextView productOnlyDescBody;
+    private TextView addToCart;
+    private FirebaseUser currentUser;
     public static List<ProductSpecificationModal>productSpecificationModalList=new ArrayList<>();
 
 
@@ -68,6 +71,7 @@ public class ProductDetailsActivity extends AppCompatActivity
         productDetailsOnlyContanier=findViewById(R.id.product_details_container);
         tabbedProductDetailsContainer=findViewById(R.id.product_details_tabs_conatiner);
         productOnlyDescBody=findViewById(R.id.product_details_body_tv);
+        addToCart=findViewById(R.id.add_to_cart_tv);
 
         buyNowBtn=findViewById(R.id.buy_now_btn);
         productTitle=findViewById(R.id.product_title);
@@ -80,7 +84,7 @@ public class ProductDetailsActivity extends AppCompatActivity
 
         firebaseFirestore=FirebaseFirestore.getInstance();
         List<String>productImages=new ArrayList<>();
-        firebaseFirestore.collection("PRODUCTS").document("6jNhO7452O4M9xNCFB8V").get()
+        firebaseFirestore.collection("PRODUCTS").document(getIntent().getStringExtra("productID")).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -187,20 +191,29 @@ public class ProductDetailsActivity extends AppCompatActivity
         // setting onclick listner to wishlistbtn
         addToWishListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(ALREADY_ADDED_TO_WISHLIST)
+            public void onClick(View v)
+            {
+                if(currentUser!=null)
                 {
-                    ALREADY_ADDED_TO_WISHLIST=false;
-                    addToWishListBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+                    if(ALREADY_ADDED_TO_WISHLIST)
+                    {
+                        ALREADY_ADDED_TO_WISHLIST=false;
+                        addToWishListBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
 
+                    }
+
+                    else
+                    {
+                        addToWishListBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
+                        ALREADY_ADDED_TO_WISHLIST=true;
+
+                    }
                 }
-
                 else
                 {
-                    addToWishListBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
-                    ALREADY_ADDED_TO_WISHLIST=true;
-
+                    TwoOptionDialogBox.twoOptionDialogBoxShow(ProductDetailsActivity.this,"Sign In","Sign Up!");
                 }
+
 
             }
 
@@ -208,9 +221,31 @@ public class ProductDetailsActivity extends AppCompatActivity
         buyNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent deliveryIntent=new Intent(ProductDetailsActivity.this,DeliveryActivity.class);
-                startActivity(deliveryIntent);
+                if(currentUser!=null)
+                {
+                    Intent deliveryIntent=new Intent(ProductDetailsActivity.this,DeliveryActivity.class);
+                    startActivity(deliveryIntent);
+                }
+                else
+                {
+                    TwoOptionDialogBox.twoOptionDialogBoxShow(ProductDetailsActivity.this,"Sign In","Sign Up!");
+                }
 
+
+            }
+        });
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentUser!=null)
+                {
+                    Intent deliveryIntent=new Intent(ProductDetailsActivity.this,DeliveryActivity.class);
+                    startActivity(deliveryIntent);
+                }
+                else
+                {
+                    TwoOptionDialogBox.twoOptionDialogBoxShow(ProductDetailsActivity.this,"Sign In","Sign Up!");
+                }
             }
         });
 
@@ -221,7 +256,15 @@ public class ProductDetailsActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.search_and_cart_icon, menu);
         return true;
     }
-// setting menu in action bar
+
+    @Override
+    protected void onStart() {
+        currentUser= FirebaseAuth.getInstance().getCurrentUser();
+        super.onStart();
+
+    }
+
+    // setting menu in action bar
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();
@@ -233,13 +276,23 @@ public class ProductDetailsActivity extends AppCompatActivity
 
         else if(id==R.id.main_cart_icon)
         {
-            Intent cartActivity=new Intent(ProductDetailsActivity.this,HomeScreenActivity.class);
-            showCart=true;
-            // here control is shifted from this to homeScreenActivity (Since my cart is part(fragment) of home screen
-            // with the help of showCart we will not load the default fragment of home screen i.e. HomeFragment
-            //Instead we will load MyCartFragment using if else
-            startActivity(cartActivity);
-            return  true;
+
+            if(currentUser!=null)
+            {
+                Intent cartActivity=new Intent(ProductDetailsActivity.this,HomeScreenActivity.class);
+                showCart=true;
+                // here control is shifted from this to homeScreenActivity (Since my cart is part(fragment) of home screen
+                // with the help of showCart we will not load the default fragment of home screen i.e. HomeFragment
+                //Instead we will load MyCartFragment using if else
+                startActivity(cartActivity);
+                return  true;
+            }
+            else
+            {
+                TwoOptionDialogBox.twoOptionDialogBoxShow(ProductDetailsActivity.this,"Sign In","Sign Up!");
+            }
+
+
 
         }
         else if(id==android.R.id.home)

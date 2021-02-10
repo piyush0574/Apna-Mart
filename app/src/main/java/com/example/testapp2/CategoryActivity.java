@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.testapp2.DBqueries.lists;
-import static com.example.testapp2.DBqueries.loadFragmentDdata;
+import static com.example.testapp2.DBqueries.loadFragmentData;
 import static com.example.testapp2.DBqueries.loadedCategoriesNames;
 //video21
 
@@ -50,7 +50,7 @@ public class CategoryActivity extends AppCompatActivity {
             loadedCategoriesNames.add(title.toUpperCase());
             lists.add(new ArrayList<HomePageModel>());
             homePageAdaptor=new HomePageAdaptor(lists.get(loadedCategoriesNames.size()-1));
-            loadFragmentDdata(homePageAdaptor,this,loadedCategoriesNames.size()-1,title);
+            loadFragmentData(categoryRecyclerView,this,loadedCategoriesNames.size()-1,title);
 
         }
         else

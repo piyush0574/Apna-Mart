@@ -4,9 +4,13 @@ import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -15,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBqueries {
-    public static List<CategoryModel> categoryModelList=new ArrayList<CategoryModel>();
     public static FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
-    public static List< List<HomePageModel>>lists=new ArrayList<>();
     //This list will store data for all the lists of homemodal type.
     // Video 54 (3)
+    public static List< List<HomePageModel>>lists=new ArrayList<>();
+    public static List<CategoryModel> categoryModelList=new ArrayList<CategoryModel>();
     public static List<String>loadedCategoriesNames=new ArrayList<>();
-    public  static void loadCategories(final CategoryAdaptor categoryAdaptor,final Context context)
+    public  static void loadCategories(RecyclerView cateRecyclerView, final Context context)
     {
         firebaseFirestore.collection("CATEGORIES").orderBy("Index").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -34,6 +38,8 @@ public class DBqueries {
                                 categoryModelList.add(new CategoryModel(documentSnapshot.get("icon").toString(),documentSnapshot.get("categoryName").toString()));
 
                             }
+                            CategoryAdaptor categoryAdaptor=new CategoryAdaptor(categoryModelList);
+                            cateRecyclerView.setAdapter(categoryAdaptor);
                             categoryAdaptor.notifyDataSetChanged();
 
                         }
@@ -46,7 +52,7 @@ public class DBqueries {
                 });
 
     }
-    public static void loadFragmentDdata(final HomePageAdaptor homePageAdaptor,final Context context,int index,String categoryName)
+    public static void loadFragmentData(RecyclerView homePagerecyclerView, final Context context, int index, String categoryName)
     {
         firebaseFirestore.collection("CATEGORIES")
                 .document(categoryName.toUpperCase())
@@ -136,7 +142,10 @@ public class DBqueries {
 
 
                             }
+                            HomePageAdaptor homePageAdaptor=new HomePageAdaptor(lists.get(index));
+                            homePagerecyclerView.setAdapter(homePageAdaptor);
                             homePageAdaptor.notifyDataSetChanged();
+                            HomeFragment.swipeRefreshLayout.setRefreshing(false);
 
                         }
                         else

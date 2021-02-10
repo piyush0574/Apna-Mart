@@ -58,6 +58,7 @@ public class SignInFragment extends Fragment {
     private Button signBtn;
     private ImageButton signClosebtn;
     FirebaseAuth firebaseAuth;
+    public static boolean isDisableSignInCloseBtn=false;
 
     public static SignInFragment newInstance(String param1, String param2) {
         SignInFragment fragment = new SignInFragment();
@@ -84,27 +85,34 @@ public class SignInFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_sign_in, container, false);
         dontHaveAccount=view.findViewById(R.id.tv_dont_have_account_sign_in);
         parentFrameLayout=getActivity().findViewById(R.id.register_framelayout);
-        email=getActivity().findViewById(R.id.sign_in_email);
-        password=getActivity().findViewById(R.id.sign_in_password);
-        signBtn=getActivity().findViewById(R.id.sign_in_btn);
-        signClosebtn=getActivity().findViewById(R.id.sign_in_close_btn);
-        progressBar=getActivity().findViewById(R.id.sign_in_progress_bar);
-        forgotPassword=getActivity().findViewById(R.id.sign_in_forgot_password);
+        email=view.findViewById(R.id.sign_in_email);
+        password=view.findViewById(R.id.sign_in_password);
+        signBtn=view.findViewById(R.id.sign_in_btn);
+        signClosebtn=view.findViewById(R.id.sign_in_close_btn);
+        progressBar=view.findViewById(R.id.sign_in_progress_bar);
+        forgotPassword=view.findViewById(R.id.sign_in_forgot_password);
         firebaseAuth=FirebaseAuth.getInstance();
+        if(isDisableSignInCloseBtn)
+        {
+            signClosebtn.setVisibility(View.GONE);
+        }
+        else
+        {
+            signClosebtn.setVisibility(View.VISIBLE);
+        }
         return view;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isDisableSignInCloseBtn=false;
+        SignUpFragment.isDisableSignUpCloseBtn=false;
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dontHaveAccount=view.findViewById(R.id.tv_dont_have_account_sign_in);
-        parentFrameLayout=getActivity().findViewById(R.id.register_framelayout);
-        email=getActivity().findViewById(R.id.sign_in_email);
-        password=getActivity().findViewById(R.id.sign_in_password);
-        signBtn=getActivity().findViewById(R.id.sign_in_btn);
-        progressBar=getActivity().findViewById(R.id.sign_in_progress_bar);
-        signClosebtn=getActivity().findViewById(R.id.sign_in_close_btn);
-        forgotPassword=getActivity().findViewById(R.id.sign_in_forgot_password);
-        firebaseAuth=FirebaseAuth.getInstance();
         dontHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,10 +257,20 @@ public class SignInFragment extends Fragment {
     }
     private void moveToHomeScreen()
     {
-        //This way we can move from one acticity to another
-        Intent mainIntent=new Intent(getActivity(),HomeScreenActivity.class);
-        //checkpoints
-        startActivity(mainIntent);
+      if(isDisableSignInCloseBtn)
+      {
+          isDisableSignInCloseBtn=false;
+      }
+      else
+      {
+          //This way we can move from one acticity to another
+          Intent mainIntent=new Intent(getActivity(),HomeScreenActivity.class);
+          isDisableSignInCloseBtn=false;
+          //checkpoints
+          startActivity(mainIntent);
+      }
+
+        // once the user do succcesful sign in ,then again make close btn visible for future
         getActivity().finish();
 
     }

@@ -1,5 +1,6 @@
 package com.example.testapp2;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +40,20 @@ public class GridProductLayoutAdaptor extends BaseAdapter {
         if(convertView==null)
         {
             view= LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_scroll_item_layout,null,false);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent productDetails=new Intent(parent.getContext(),ProductDetailsActivity.class);
+                    productDetails.putExtra("productID",horizonalProductScrollModelList.get(position).getProductID());
+                    parent.getContext().startActivity(productDetails);
+                }
+            });
             ImageView productImage=view.findViewById(R.id.horizontal_product_image);
             TextView productTitle=view.findViewById(R.id.horizontal_product_layout_title);
             TextView productDesc=view.findViewById(R.id.horizontal_product_description);
             TextView productPrice=view.findViewById(R.id.horizontal_product_price);
             Glide.with(parent.getContext()).load(horizonalProductScrollModelList.get(position).getProductImage())
-                    .apply(new RequestOptions().placeholder(R.mipmap.home_icon)).into(productImage);
+                    .apply(new RequestOptions().placeholder(R.drawable.icon_paceholder)).into(productImage);
             productTitle.setText(horizonalProductScrollModelList.get(position).getProductTitle());
             productPrice.setText("Rs. "+horizonalProductScrollModelList.get(position).getProductPrice()+"/-");
             productDesc.setText(horizonalProductScrollModelList.get(position).getGetProductDescription());
