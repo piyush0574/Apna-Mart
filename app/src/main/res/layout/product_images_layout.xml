@@ -49,7 +49,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:padding="4dp"
-        android:text="Acer One 14 Pentium Gold - (4 GB/1 TB HDD/Windows 10 Home) Z2-485 Thin and Light Laptop  (14 inch, Silver, 1.8 kg)"
+        android:text=""
         android:textColor="#756E6E"
         android:textSize="18sp"
         android:textStyle="bold"

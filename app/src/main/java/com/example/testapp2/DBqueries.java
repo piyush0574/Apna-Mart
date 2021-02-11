@@ -1,5 +1,6 @@
 package com.example.testapp2;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -25,6 +27,7 @@ public class DBqueries {
     public static List< List<HomePageModel>>lists=new ArrayList<>();
     public static List<CategoryModel> categoryModelList=new ArrayList<CategoryModel>();
     public static List<String>loadedCategoriesNames=new ArrayList<>();
+    public static List<String>wishList=new ArrayList<>();
     public  static void loadCategories(RecyclerView cateRecyclerView, final Context context)
     {
         firebaseFirestore.collection("CATEGORIES").orderBy("Index").get()
@@ -98,10 +101,10 @@ public class DBqueries {
                                                 ,documentSnapshot.get("product_subtitle_"+i).toString()));
                                         viewAllProductList.add(new WishListModal(documentSnapshot.get("product_image"+i).toString()
                                                 ,documentSnapshot.get("product_full_title_"+i).toString()
-                                        ,documentSnapshot.get("product_price_"+i).toString()
-                                        ,documentSnapshot.get("cutted_price_"+i).toString(),"18%"
-                                        ,(boolean)documentSnapshot.get("COD_"+i)
-                                        ,documentSnapshot.get("product_ID_"+i).toString()));
+                                                ,documentSnapshot.get("product_price_"+i).toString()
+                                                ,documentSnapshot.get("cutted_price_"+i).toString(),"18%"
+                                                ,(boolean)documentSnapshot.get("COD_"+i)
+                                                ,documentSnapshot.get("product_ID_"+i).toString()));
 
 
                                     }
@@ -132,7 +135,7 @@ public class DBqueries {
                                 }
                                 else if((long)documentSnapshot.get("viewType")==4)
                                 {
-                                  /// category grid
+                                    /// category grid
                                     lists.get(index).add(new HomePageModel(4,"","",categoryModelList));
                                 }
                                 else
@@ -159,4 +162,32 @@ public class DBqueries {
 
 
     }
+    public static void loadWishList(Context context,Dialog loadingDialog)
+    {
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                .collection("USER_DATA").document("MY_WISHLIST")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    for(long x=0;x<(long)task.getResult().get("wishlistSize");x++)
+                    {
+                        wishList.add(task.getResult().get("product_ID_"+x).toString());
+                    }
+
+                }
+                else
+                {
+                    String error=task.getException().getMessage();
+                    Toast.makeText(context,error,Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+        });
+        loadingDialog.dismiss();
+    }
+
 }

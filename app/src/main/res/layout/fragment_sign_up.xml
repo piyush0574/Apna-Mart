@@ -9,11 +9,11 @@
     tools:context=".SignUpFragment">
 
     <ImageButton
-        android:id="@+id/sign_in_close_btn"
+        android:id="@+id/sign_up_close_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:padding="16dp"
+        android:padding="30dp"
         android:src="@drawable/cross_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
