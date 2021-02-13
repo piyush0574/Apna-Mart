@@ -36,6 +36,7 @@ public class TwoOptionDialogBox {
                 context.startActivity(registerIntent);
 
             }
+
         });
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
