@@ -1,6 +1,5 @@
 package com.example.testapp2;
 
-import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,8 +25,6 @@ public class MyWishlistFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private RecyclerView wishlistRecycleView;
-    private Dialog loadingDialog;
-    public static WishlistAdaptor wishlistAdaptor;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -60,27 +57,22 @@ public class MyWishlistFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_my_wishlist, container, false);
-        // loading dialog
-        loadingDialog=new Dialog(getContext());
-        loadingDialog.setContentView(R.layout.loading_progess_dialog);
-//        loadingDialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
-        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        loadingDialog.setCancelable(false);
-        loadingDialog.show();
         wishlistRecycleView=view.findViewById(R.id.my_wishlist_recycle_view);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         wishlistRecycleView.setLayoutManager(linearLayoutManager);
-       if(DBqueries.wishListModalList.size()==0)
-       {
-           DBqueries.localwishList.clear();
-           DBqueries.loadWishList(getContext(),loadingDialog,true);
-       }
-       else
-       {
-           loadingDialog.dismiss();
-       }
-        wishlistAdaptor=new WishlistAdaptor(DBqueries.wishListModalList,true);
+     List<WishListModal>wishListModalList=new ArrayList<>();
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","18 %","COD Available"));
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","17 %","COD Available"));
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","13 %","COD Available"));
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","12 %","COD Available"));
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","18 %","COD Not Available"));
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","18 %","COD Available"));
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","17 %","COD Available"));
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","13 %","COD Available"));
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","12 %","COD Available"));
+//        wishListModalList.add(new WishListModal(R.mipmap.img_phone_2,"Iphone 12 (64 GB","Rs20000","Rs. 18000","18 %","COD Not Available"));
+        WishlistAdaptor wishlistAdaptor=new WishlistAdaptor(wishListModalList,true);
         wishlistRecycleView.setAdapter(wishlistAdaptor);
         wishlistAdaptor.notifyDataSetChanged();
         return view;

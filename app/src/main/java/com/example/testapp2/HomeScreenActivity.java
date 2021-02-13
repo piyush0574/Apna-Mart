@@ -46,7 +46,10 @@ public class HomeScreenActivity extends AppCompatActivity
     private static final  int MYWISHLIST_FRAGMENT=3;
     private static final  int MYACCOUNT_FRAGMENT=4;
     public static boolean showCart=false;
+    private Dialog signIndialog;
     private FirebaseUser currentUser;
+
+
     private DrawerLayout  drawer;
     private NavigationView navigationView ;
     private TextView actionBarLogo;
@@ -58,11 +61,11 @@ public class HomeScreenActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        actionBarLogo=findViewById(R.id.action_bar_logo);
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        frameLayout=findViewById(R.id.main_framelayout);
+          setSupportActionBar(toolbar);
+         actionBarLogo=findViewById(R.id.action_bar_logo);
+          drawer = findViewById(R.id.drawer_layout);
+          navigationView = findViewById(R.id.nav_view);
+         frameLayout=findViewById(R.id.main_framelayout);
         if(showCart) // this is for cart option in productDetailsActvity
         {
             drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
@@ -126,8 +129,8 @@ public class HomeScreenActivity extends AppCompatActivity
             {
                 if(showCart)
                 {
-                    showCart=false ;
-                    finish();
+                   showCart=false ;
+                   finish();
                 }
                 else
                 {
@@ -159,10 +162,10 @@ public class HomeScreenActivity extends AppCompatActivity
         int id=item.getItemId();
         navigationView =findViewById(R.id.nav_view);
         if(id==R.id.main_search_icon)
-        // for search icon
-        {
-            return  true;
-        }
+            // for search icon
+            {
+                return  true;
+            }
 
         else if(id==R.id.main_notification_icon)
         {
@@ -199,18 +202,18 @@ public class HomeScreenActivity extends AppCompatActivity
     }
     private  void goToFragment(String title,Fragment fragment,int FragmentNo)
     {
-        if(FragmentNo!=HOME_FRAGMENT)
-        {
-            getSupportActionBar().setDisplayShowTitleEnabled(true); //video13
-            getSupportActionBar().setTitle(title);
-            actionBarLogo.setVisibility(View.GONE);
-        }
-        else
-        {
-            getSupportActionBar().setDisplayShowTitleEnabled(false); //video13
-            actionBarLogo.setVisibility(View.VISIBLE);// My mall Logo
+      if(FragmentNo!=HOME_FRAGMENT)
+      {
+          getSupportActionBar().setDisplayShowTitleEnabled(true); //video13
+          getSupportActionBar().setTitle(title);
+          actionBarLogo.setVisibility(View.GONE);
+      }
+      else
+      {
+          getSupportActionBar().setDisplayShowTitleEnabled(false); //video13
+          actionBarLogo.setVisibility(View.VISIBLE);// My mall Logo
 
-        }
+      }
         drawer.closeDrawer(GravityCompat.START,true); // to close drawer
         invalidateOptionsMenu(); // to remove cart and other option from menu bar
         // this will call OncreateMenu again
@@ -228,7 +231,7 @@ public class HomeScreenActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     //  This is for side navigation
-    // will have to add line number 24 if this method is not auto population
+   // will have to add line number 24 if this method is not auto population
     public boolean onNavigationItemSelected(MenuItem item)
     {
         int id=item.getItemId();
@@ -279,7 +282,6 @@ public class HomeScreenActivity extends AppCompatActivity
             {
 //
                 FirebaseAuth.getInstance().signOut();
-                DBqueries.clearData();
                 Intent registerIntent=new Intent(HomeScreenActivity.this,RegisterActivity.class);
                 startActivity(registerIntent);
                 finish();

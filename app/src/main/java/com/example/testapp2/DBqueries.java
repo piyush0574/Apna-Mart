@@ -18,7 +18,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class DBqueries {
@@ -26,10 +25,9 @@ public class DBqueries {
     //This list will store data for all the lists of homemodal type.
     // Video 54 (3)
     public static List< List<HomePageModel>>lists=new ArrayList<>();
-    public static List<CategoryModel> categoryModelList=new ArrayList<>();
+    public static List<CategoryModel> categoryModelList=new ArrayList<CategoryModel>();
     public static List<String>loadedCategoriesNames=new ArrayList<>();
-    public static List<String>localwishList=new ArrayList<>();
-    public static List<WishListModal>wishListModalList=new ArrayList<>();
+    public static List<String>wishList=new ArrayList<>();
     public  static void loadCategories(RecyclerView cateRecyclerView, final Context context)
     {
         firebaseFirestore.collection("CATEGORIES").orderBy("Index").get()
@@ -105,7 +103,8 @@ public class DBqueries {
                                                 ,documentSnapshot.get("product_full_title_"+i).toString()
                                                 ,documentSnapshot.get("product_price_"+i).toString()
                                                 ,documentSnapshot.get("cutted_price_"+i).toString(),"18%"
-                                                ,(boolean)documentSnapshot.get("COD_"+i),documentSnapshot.get("product_ID_"+i).toString()));
+                                                ,(boolean)documentSnapshot.get("COD_"+i)
+                                                ,documentSnapshot.get("product_ID_"+i).toString()));
 
 
                                     }
@@ -163,7 +162,7 @@ public class DBqueries {
 
 
     }
-    public static void loadWishList(final Context context,final Dialog loadingDialog, final boolean loadProductData)
+    public static void loadWishList(Context context,Dialog loadingDialog)
     {
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
                 .collection("USER_DATA").document("MY_WISHLIST")
@@ -174,50 +173,7 @@ public class DBqueries {
                 {
                     for(long x=0;x<(long)task.getResult().get("wishlistSize");x++)
                     {
-                        localwishList.add(task.getResult().get("product_ID_" + x).toString());
-                        if(DBqueries.localwishList.contains(ProductDetailsActivity.localProductId))
-                        {
-                            ProductDetailsActivity.ALREADY_ADDED_TO_WISHLIST=true;
-                            if(ProductDetailsActivity.addToWishListBtn!=null)
-                            {
-                                ProductDetailsActivity.addToWishListBtn.setSupportImageTintList(context.getResources().getColorStateList(R.color.colorPrimary));
-                            }
-
-
-                        }
-                        else
-                        {
-                            if(ProductDetailsActivity.addToWishListBtn!=null)
-                            {
-                                ProductDetailsActivity.addToWishListBtn.setSupportImageTintList(context.getResources().getColorStateList(R.color.grayLight));
-                            }
-                            ProductDetailsActivity.ALREADY_ADDED_TO_WISHLIST=false;
-
-                        }
-                        if(loadProductData) {
-                            String productId=task.getResult().get("product_ID_" + x).toString();
-                            firebaseFirestore.collection("PRODUCTS").document(task.getResult().get("product_ID_" + x).toString())
-                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-
-                                        wishListModalList.add(new WishListModal(task.getResult().get("product_image1").toString()
-                                                , task.getResult().get("product_title").toString()
-                                                , task.getResult().get("product_price").toString()
-                                                , task.getResult().get("cutted_price").toString(), "18% OFF"
-                                                , (boolean) task.getResult().get("COD"),productId));
-                                        MyWishlistFragment.wishlistAdaptor.notifyDataSetChanged();
-
-                                    } else {
-                                        String e = task.getException().getMessage();
-                                        Toast.makeText(context, e, Toast.LENGTH_SHORT).show();
-
-                                    }
-
-                                }
-                            });
-                        }
+                        wishList.add(task.getResult().get("product_ID_"+x).toString());
                     }
 
                 }
@@ -227,66 +183,11 @@ public class DBqueries {
                     Toast.makeText(context,error,Toast.LENGTH_SHORT).show();
 
                 }
-                loadingDialog.dismiss();
 
             }
 
         });
-
-    }
-    public  static void removeWishList(Integer index,final Context context)
-    {
-        int i=(int)index;
-        localwishList.remove(i);
-        HashMap<String,Object> updateWishList = new HashMap<>();
-        for (int x=0;x<localwishList.size();x++)
-        {
-            updateWishList.put("product_ID_"+x,localwishList.get(x));
-        }
-        updateWishList.put("wishlistSize",(long)localwishList.size());
-        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA")
-                .document("MY_WISHLIST").set(updateWishList).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                {
-                    if(wishListModalList.size() !=0)
-                    {
-                        wishListModalList.remove(i);
-                        MyWishlistFragment.wishlistAdaptor.notifyDataSetChanged();
-                    }
-                    ProductDetailsActivity.ALREADY_ADDED_TO_WISHLIST=false;
-                    Toast.makeText(context,"Removed Successfully",Toast.LENGTH_SHORT).show();
-
-
-                }
-                else
-                {
-                    if(ProductDetailsActivity.addToWishListBtn!=null)
-                    {
-                        ProductDetailsActivity.addToWishListBtn.setSupportImageTintList(context.getResources().getColorStateList(R.color.colorPrimary));
-                    }
-
-                    String e2=task.getException().getMessage();
-                    Toast.makeText(context,e2,Toast.LENGTH_SHORT).show();
-                }
-                if(ProductDetailsActivity.addToWishListBtn!=null)
-                {
-                    ProductDetailsActivity.addToWishListBtn.setEnabled(true);
-                }
-
-            }
-        });
-
-    }
-    public static void clearData()
-    {
-        categoryModelList.clear();
-        lists.clear();
-        loadedCategoriesNames.clear();
-        localwishList.clear();
-        wishListModalList.clear();
-
+        loadingDialog.dismiss();
     }
 
 }
