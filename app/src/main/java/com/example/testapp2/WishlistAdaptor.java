@@ -41,8 +41,8 @@ public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.ViewHo
         String discountedPrice=wishListModalList.get(position).getDiscountPrice();
         String cuttedPrice=wishListModalList.get(position).getCuttedPrice();
         String percentageDis=wishListModalList.get(position).getPercentDiscount();
-        boolean COD=wishListModalList.get(position).isCOD();
-        holder.setMyWishList(resource,title,cuttedPrice,discountedPrice,percentageDis,COD);
+        boolean CashOnDelivery=wishListModalList.get(position).isCOD();
+        holder.setMyWishList(resource,title,cuttedPrice,discountedPrice,percentageDis,CashOnDelivery);
 
     }
 
