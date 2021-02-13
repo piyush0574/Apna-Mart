@@ -57,7 +57,7 @@ public class SignInFragment extends Fragment {
     private EditText email,password;
     private Button signBtn;
     private ImageButton signClosebtn;
-    FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth;
     public static boolean isDisableSignInCloseBtn=false;
 
     public static SignInFragment newInstance(String param1, String param2) {

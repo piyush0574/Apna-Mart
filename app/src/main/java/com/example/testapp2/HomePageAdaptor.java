@@ -46,7 +46,7 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        {// This is to inflate layout
+        // This is to inflate layout
             switch (viewType) {
                 case HomePageModel.bannerSlider:
                     View bannerSliderView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.sliding_ad_layout, viewGroup, false);
@@ -67,7 +67,6 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
                 default:
                     return null;
             }
-        }
     }
 
     @Override
@@ -105,6 +104,12 @@ public class HomePageAdaptor extends RecyclerView.Adapter {
                 break;
             default:
                 return;
+        }
+        if(lastPosition<position)
+        {
+            Animation animation=AnimationUtils.loadAnimation(viewHolder.itemView.getContext(),R.anim.fade_in_anim);
+            viewHolder.itemView.setAnimation(animation);
+            lastPosition=position;
         }
 
 

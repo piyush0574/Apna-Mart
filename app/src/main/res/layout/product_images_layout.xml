@@ -29,18 +29,20 @@
         android:id="@+id/add_to_wishlist_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         android:backgroundTint="@color/colorAccent"
         android:clickable="true"
         android:src="@drawable/wishlist_64"
-        app:borderWidth="0dp"
+        android:tint="@color/grayLight"
+        app:borderWidth="1dp"
         app:elevation="7dp"
-        app:layout_anchorGravity="bottom|right|end"
+        android:padding="18dp"
+        app:layout_anchorGravity="bottom|right|end|center"
         app:layout_constraintBottom_toBottomOf="@+id/product_images_view_pager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:maxImageSize="30dp"
-        app:rippleColor="@color/colorPrimary" />
+        app:rippleColor="@color/teal_200" />
 
     <TextView
         android:id="@+id/product_title"
