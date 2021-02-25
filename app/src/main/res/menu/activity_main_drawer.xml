@@ -10,7 +10,7 @@
             android:title="My Mall" />
         <item
             android:id="@+id/nav_myorders"
-            android:icon="@mipmap/my_orders"
+            android:icon="@drawable/ic_baseline_shopping_bag_24"
             android:title="My Orders" />
 <!--        <item-->
 <!--            android:id="@+id/nav_myrewards"-->
@@ -26,7 +26,7 @@
             android:title="My WishLists"/>
         <item
             android:id="@+id/nav_share"
-            android:icon="@mipmap/search"
+            android:icon="@drawable/ic_baseline_share_24"
             android:title="Share"/>
         <item
             android:id="@+id/nav_myaccount"

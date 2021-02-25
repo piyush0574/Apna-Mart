@@ -103,8 +103,12 @@ public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.ViewHo
                 deleteBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteBtn.setEnabled(false);// to avoid multiple tapping on delete button by user
-                        DBqueries.removeWishList(index,itemView.getContext());
+                        if(!ProductDetailsActivity.running_wishlist_querry)
+                        {
+                            ProductDetailsActivity.running_wishlist_querry=true; // to avoid multiple tapping on delete button by user
+                            DBqueries.removeWishList(index,itemView.getContext());
+                        }
+
                     }
                 });
             }

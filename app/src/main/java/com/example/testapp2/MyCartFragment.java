@@ -1,5 +1,6 @@
 package com.example.testapp2;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,9 @@ public class MyCartFragment extends Fragment {
     }
     private RecyclerView cartItemRecycleView;
     private Button continueBtn;
+    private Dialog loadingDialog;
+    public static CartAdaptor cartAdaptor;
+
 
     /**
      * Use this factory method to create a new instance of
@@ -70,25 +75,37 @@ public class MyCartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // loading dialog
+        loadingDialog=new Dialog(getContext());
+        loadingDialog.setContentView(R.layout.loading_progess_dialog);
+//        loadingDialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialog.setCancelable(false);
+        loadingDialog.show();
+        // loading dialog
+
         // Inflate the layout for this fragment
         // with the help of one recycle view and linearlayout manager ,we will inflate both layouts
         // for cart and total price sections
         // v29
-       List<CartItemModal>cartItemModalList=new ArrayList<>();
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_1,"Redmi K20","Rs.20000/-","Rs.18000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_2,"Redmi K19","Rs.20000/-","Rs.18000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_3,"Redmi K21","Rs.200000/-","Rs.180000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_1,"Redmi K20","Rs.20000/-","Rs.18000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_1,"Redmi K20","Rs.20000/-","Rs.18000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_1,"Redmi K20","Rs.20000/-","Rs.18000/-",2,18));
-         cartItemModalList.add(new CartItemModal(1,2,"20000","Free","You have saved Rs 3000 on this order","Rs 18000"));
+
          View view= inflater.inflate(R.layout.fragment_my_cart, container, false);
         cartItemRecycleView=view.findViewById(R.id.cart_items_recycle_view);
         LinearLayoutManager cartmanager=new LinearLayoutManager(getActivity());
         cartmanager.setOrientation(LinearLayoutManager.VERTICAL);
         cartItemRecycleView.setLayoutManager(cartmanager);
+        if(DBqueries.cartItemModalList.size()==0)
+        {
+            DBqueries.localCartList.clear();
+            DBqueries.loadCartList(getContext(),true,loadingDialog,new TextView(getContext()));
+        }
+        else
+        {
+            loadingDialog.dismiss();
+        }
         //here we will create and set adaptor
-        CartAdaptor cartAdaptor=new CartAdaptor(cartItemModalList);
+        cartAdaptor=new CartAdaptor(DBqueries.cartItemModalList);
         cartItemRecycleView.setAdapter(cartAdaptor);
         cartAdaptor.notifyDataSetChanged();
         continueBtn=view.findViewById(R.id.cart_continue_btn);

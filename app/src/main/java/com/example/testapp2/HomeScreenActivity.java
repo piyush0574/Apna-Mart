@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
@@ -51,6 +52,8 @@ public class HomeScreenActivity extends AppCompatActivity
     private NavigationView navigationView ;
     private TextView actionBarLogo;
     private  NavController navController;
+    public static  MenuItem homeCartItem;
+    private  TextView badgeCount;
 
 
     @Override
@@ -106,6 +109,7 @@ public class HomeScreenActivity extends AppCompatActivity
         {
             navigationView.getMenu().getItem(navigationView.getMenu().size()-1).setEnabled(true);
         }
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -148,6 +152,52 @@ public class HomeScreenActivity extends AppCompatActivity
         {
             getMenuInflater().inflate(R.menu.home_screen, menu);
             getSupportActionBar().setDisplayShowTitleEnabled(false); //video13
+            // setting badge count of cart
+            homeCartItem=menu.findItem(R.id.main_cart_icon);
+            homeCartItem.setActionView(R.layout.badge_layout);
+            ImageView badgeIcon=homeCartItem.getActionView().findViewById(R.id.badge_icon);
+            badgeCount=homeCartItem.getActionView().findViewById(R.id.badge_count);
+            badgeIcon.setImageResource(R.drawable.ic_baseline_shopping_cart_24);
+
+            if(currentUser!=null)
+                {
+                    if(DBqueries.localCartList.size()==0)
+                    {
+                        badgeCount.setVisibility(View.INVISIBLE);
+                        DBqueries.loadCartList(HomeScreenActivity.this,false,new Dialog(HomeScreenActivity.this),badgeCount);
+                    }
+                    else
+                    {
+                        badgeCount.setVisibility(View.VISIBLE);
+                        if(DBqueries.localCartList.size()<99)
+                        {
+                            badgeCount.setText(String.valueOf(DBqueries.localCartList.size()));
+                        }
+                        else
+                        {
+                            badgeCount.setText("99");
+                        }
+                    }
+
+                }
+            homeCartItem.getActionView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(currentUser==null)
+                        {
+                            // creating dialog box
+                            TwoOptionDialogBox.twoOptionDialogBoxShow(HomeScreenActivity.this,"Sign In","Sign Up!");
+                        }
+                        else
+                        {
+                            goToFragment("My cart",new MyCartFragment(),CART_FRAGMENT);
+
+                        }
+
+                    }
+                });
+
+
         }
 
 
@@ -218,7 +268,8 @@ public class HomeScreenActivity extends AppCompatActivity
         if(CURRENT_FRAGMENT==CART_FRAGMENT)
         {
 
-            navigationView.getMenu().getItem(3).setChecked(true);
+            navigationView.getMenu().getItem(2).setChecked(true);
+
 
         }
 
@@ -231,6 +282,7 @@ public class HomeScreenActivity extends AppCompatActivity
     // will have to add line number 24 if this method is not auto population
     public boolean onNavigationItemSelected(MenuItem item)
     {
+
         int id=item.getItemId();
         if(currentUser!=null)
         {
@@ -291,7 +343,20 @@ public class HomeScreenActivity extends AppCompatActivity
         }
         else
         {
-            if(!(id==R.id.nav_mymall))
+            // making share option available for both logged and logged out user
+        if(id==R.id.nav_share)
+        {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,"Hey I am sharing you R Mart Application!");
+            sendIntent.setType("text/plain");
+            Intent.createChooser(sendIntent,"Share via");
+            drawer.closeDrawer(GravityCompat.START,true); // to close drawer
+            invalidateOptionsMenu(); // to remove cart and other option from menu bar
+            // this will call OncreateMenu again
+            startActivity(sendIntent);
+        }
+            if(!(id==R.id.nav_mymall ||id==R.id.nav_share ) )
             {
                 drawer.closeDrawer(GravityCompat.START,true); // to close drawer
                 TwoOptionDialogBox.twoOptionDialogBoxShow(HomeScreenActivity.this,"Sign In","Sign Up!");

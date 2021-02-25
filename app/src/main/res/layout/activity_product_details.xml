@@ -48,15 +48,16 @@
             <include layout="@layout/product_description_layout" />
 
             <include layout="@layout/product_details_only_layout" />
+
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:elevation="8dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -73,27 +74,31 @@
             <TextView
                 android:id="@+id/add_to_cart_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:drawableEnd="@mipmap/cart_black"
+                android:layout_height="56dp"
                 android:drawablePadding="8dp"
-                android:drawableTint="#485F70"
                 android:gravity="center"
+                android:clickable="true"
+                android:layout_weight="1"
                 android:text="ADD TO CART"
                 android:textColor="#485F70"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/buy_now_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:background="#E9FF5900"
+                android:text="BUY NOW" />
+
         </LinearLayout>
-        <Button
-            android:id="@+id/buy_now_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="BUY NOW"
-            android:backgroundTint="@color/teal_200"
-            android:textSize="16sp"
-            android:stateListAnimator="@null"
-            android:textColor="@color/colorAccent"
-            android:layout_weight="1"/>
 
 
     </LinearLayout>

@@ -155,7 +155,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/TotalcartAmount_Tv"
+                android:id="@+id/totalcartAmount_Tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rs 35555"

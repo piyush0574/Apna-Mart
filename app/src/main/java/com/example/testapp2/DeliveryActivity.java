@@ -26,13 +26,6 @@ public class DeliveryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery);
         List<CartItemModal> cartItemModalList=new ArrayList<>();
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_1,"Redmi K20","Rs.20000/-","Rs.18000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_2,"Redmi K19","Rs.20000/-","Rs.18000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_3,"Redmi K21","Rs.200000/-","Rs.180000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_1,"Redmi K20","Rs.20000/-","Rs.18000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_1,"Redmi K20","Rs.20000/-","Rs.18000/-",2,18));
-        cartItemModalList.add(new CartItemModal(0,R.mipmap.img_phone_1,"Redmi K20","Rs.20000/-","Rs.18000/-",2,18));
-        cartItemModalList.add(new CartItemModal(1,2,"20000","Free","You have saved Rs 3000 on this order","Rs 18000"));
         deliveryRecyclerView=findViewById(R.id.delivery_recyclerview);
         LinearLayoutManager cartmanager=new LinearLayoutManager(this);
         cartmanager.setOrientation(LinearLayoutManager.VERTICAL);

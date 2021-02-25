@@ -28,10 +28,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -284,30 +287,54 @@ public class SignUpFragment extends Fragment {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful())
                                             {
-                                                HashMap<String,Object> listSize = new HashMap<>();
-                                                listSize.put("wishlistSize",(long)0);
-                                                firebaseFirestore.collection("USERS")
-                                                        .document(firebaseAuth.getUid()).collection("USER_DATA")
-                                                        .document("MY_WISHLIST").set(listSize).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if(task.isSuccessful())
-                                                        {
-                                                            moveToHomeScreen();
+                                                CollectionReference userDataReference= firebaseFirestore.collection("USERS")
+                                                        .document(firebaseAuth.getUid()).collection("USER_DATA");
+                                                //LISTS
+                                                List<String> documentNames=new ArrayList<>();
+                                                documentNames.add("MY_WISHLIST");
+                                                documentNames.add("MY_CART");
+
+                                                //LISTS
+
+                                                //MAPS
+                                                HashMap<String,Object> wishlistMap = new HashMap<>();
+                                                wishlistMap.put("wishlistSize",(long)0);
+
+                                                HashMap<String,Object> cartMap = new HashMap<>();
+                                                cartMap.put("cartlistSize",(long)0);
+                                                //MAPS
+
+
+                                                List< HashMap<String,Object>>documentFields=new ArrayList<>();
+                                                documentFields.add(wishlistMap);
+                                                documentFields.add(cartMap);
+                                                for(int x=0;x<documentNames.size();x++)
+                                                {
+                                                    int finalX = x;
+                                                    userDataReference.document(documentNames.get(x)).set(documentFields.get(x)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if(task.isSuccessful())
+                                                            {
+                                                                if(finalX ==documentNames.size()-1)
+                                                                {
+                                                                    moveToHomeScreen();
+                                                                }
+
+
+                                                            }
+                                                            else
+                                                            {
+                                                                progressBar.setVisibility(View.INVISIBLE);
+                                                                signUpBtn.setEnabled(true);
+                                                                signUpBtn.setTextColor(Color.rgb(255,255,255));
+                                                                String error=task.getException().getMessage();
+                                                                Toast.makeText(getActivity(),error,Toast.LENGTH_LONG).show();
+                                                            }
 
                                                         }
-                                                        else
-                                                        {
-                                                            progressBar.setVisibility(View.INVISIBLE);
-                                                            signUpBtn.setEnabled(true);
-                                                            signUpBtn.setTextColor(Color.rgb(255,255,255));
-                                                            String error=task.getException().getMessage();
-                                                            Toast.makeText(getActivity(),error,Toast.LENGTH_LONG).show();
-                                                        }
-
-                                                    }
-                                                });
-                                                // moveToHomeScreen();
+                                                    });
+                                                }
 
                                             }
                                             else

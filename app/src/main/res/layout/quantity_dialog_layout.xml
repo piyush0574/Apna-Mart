@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Quantity"
-        android:textColor="@color/black"
+        android:text="Enter Quantity"
+        android:textColor="#D70C0C0C"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,20 +25,30 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/black"
+        android:cursorVisible="true"
         android:ems="10"
+        android:hint="Qunatity"
+
         android:inputType="number"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
+    <View
+        android:id="@+id/divider15"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/curved_edge_background"
         android:elevation="4dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +57,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quantity_number">
 
-        <Button
+
+        <TextView
             android:id="@+id/cancel_in_btn_dilaogbox"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -56,12 +67,18 @@
             android:layout_weight="1"
             android:backgroundTint="@color/colorAccent"
             android:ems="10"
+            android:gravity="center"
             android:text="Cancel"
-            android:textAllCaps="false"
-            android:textColor="@color/btnRed"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
-        <Button
+        <View
+            android:id="@+id/divider16"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:background="@color/gray" />
+
+        <TextView
             android:id="@+id/Ok_up_btn_dilaogbox"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -70,9 +87,11 @@
             android:layout_weight="1"
             android:backgroundTint="@color/colorAccent"
             android:ems="10"
-            android:text="Ok"
+            android:gravity="center"
+            android:text="APPLY"
             android:textAllCaps="false"
-            android:textColor="@color/btnRed"
+            android:textColor="@color/teal_200"
             android:textStyle="bold" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

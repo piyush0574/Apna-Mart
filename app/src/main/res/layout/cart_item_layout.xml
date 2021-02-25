@@ -2,9 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/product_image"
+    android:id="@+id/cart"
     android:layout_width="match_parent"
-    android:layout_height="170dp">
+    android:layout_height="wrap_content"
+    android:elevation="8dp"
+    android:background="@drawable/rectangular_background_1dp_radius"
+ >
 
     <ImageView
         android:id="@+id/product_image_my_cart"
@@ -37,11 +40,12 @@
         android:id="@+id/cutted_price_my_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:text="Rs. 2000"
-        android:textColor="@color/btnRed"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="12dp"
+        android:text="2000"
+        android:textColor="@color/gray"
         android:textSize="20sp"
+        android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/product_image_my_cart"
         app:layout_constraintTop_toBottomOf="@+id/product_title_mycart_tv" />
 
@@ -73,67 +77,80 @@
         android:id="@+id/percent_discount_my_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/circle_tv"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/discount_box_background"
+        android:padding="4dp"
         android:text="18% OFF"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/btnRed"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
-        app:layout_constraintStart_toEndOf="@+id/cutted_price_my_order"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/quantity_my_cart"
         app:layout_constraintTop_toBottomOf="@+id/product_title_mycart_tv"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.091" />
 
     <TextView
         android:id="@+id/quantity_my_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/border"
-        android:drawableEnd="@mipmap/ic_discount"
-        android:drawablePadding="4dp"
+        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+        android:drawablePadding="1dp"
         android:paddingTop="3dp"
         android:text="Qty :1"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/add_to_cart_linear_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/product_price_my_cart_tv"
         app:layout_constraintTop_toBottomOf="@+id/percent_discount_my_cart"
-        app:layout_constraintVertical_bias="0.036" />
+        app:layout_constraintVertical_bias="0.205" />
 
-    <LinearLayout
-        android:id="@+id/remove_layout_btn"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/border"
-        android:backgroundTint="@color/grayLight"
-        android:orientation="horizontal"
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Rs."
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cutted_price_my_order"
+        app:layout_constraintEnd_toStartOf="@+id/cutted_price_my_order"
+        app:layout_constraintStart_toEndOf="@+id/product_image_my_cart"
+        app:layout_constraintTop_toTopOf="@+id/cutted_price_my_order" />
+
+    <TextView
+        android:id="@+id/remove_from_cart_tv_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="18dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:background="@drawable/rectangular_edge_color_black"
+        android:text="Remove from Cart"
+        android:textSize="22sp"
+        android:textColor="@color/gray"
+        android:drawableStart="@drawable/delete_icon"
+        android:drawablePadding="8dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_image_my_cart">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Remove item"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@mipmap/bin" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/product_price_my_cart_tv" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
