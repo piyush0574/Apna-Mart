@@ -1,19 +1,20 @@
 package com.example.testapp2;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -35,6 +36,8 @@ public class DBqueries {
     public static List<WishListModal>wishListModalList=new ArrayList<>();
     public static List<String>localCartList=new ArrayList<>();
     public static List<CartItemModal>cartItemModalList=new ArrayList<>();
+    public  static List<AddressesModal>addressesModalList=new ArrayList<>();
+    public static  int selectedAddress=-1;
     public  static void loadCategories(RecyclerView cateRecyclerView, final Context context)
     {
         categoryModelList.clear();
@@ -243,7 +246,7 @@ public class DBqueries {
 
     }
     // My Cart
-    public static void loadCartList(final Context context,final boolean loadProductData,final Dialog loadingDialog,final TextView badgeCount)
+    public static void loadCartList(final Context context,final boolean loadProductData,final Dialog loadingDialog,final TextView badgeCount,TextView cartTotalAmount)
     {
         localCartList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
@@ -281,10 +284,13 @@ public class DBqueries {
                                         cartItemModalList.add(index,new CartItemModal(CartItemModal.CART_ITEM,task.getResult().get("product_image1").toString()
                                                 , task.getResult().get("product_title").toString()
                                                 , task.getResult().get("cutted_price").toString(),task.getResult().get("product_price").toString()
-                                               , (long)1,(long)18,productId));
+                                               , (long)1,(long)18,productId,(boolean)task.getResult().get("in_stock")));
                                         if(localCartList.size()==1)
                                         {
                                             cartItemModalList.add(new CartItemModal(CartItemModal.TOTAL_AMOUNT));
+                                            LinearLayout continueBtnContainer=(LinearLayout)cartTotalAmount.getParent().getParent();
+                                            continueBtnContainer.setVisibility(View.GONE);
+
                                         }
                                         if(localCartList.size()==0)
                                         {
@@ -310,7 +316,7 @@ public class DBqueries {
                     {
                         badgeCount.setVisibility(View.INVISIBLE);
                     }
-                    if(DBqueries.localCartList.size()<99)
+                    if(DBqueries.localCartList.size()<99 && DBqueries.localCartList.size()>0)
                     {
                         badgeCount.setText(String.valueOf(DBqueries.localCartList.size()));
                     }
@@ -332,6 +338,55 @@ public class DBqueries {
 
         });
 
+
+    }
+    public static void loadAddresses(Context context,Dialog loaddingDialog)
+    {
+        addressesModalList.clear();
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA")
+                .document("MY_ADDRESSES").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    Intent deliveryIntent;
+                    if((long)task.getResult().get("addresslistSize")==0)
+                    {
+                        deliveryIntent=new Intent(context, AddAddressActivity.class);
+                        deliveryIntent.putExtra("INTENT","deliveryIntent");
+                    }
+                    else
+                    {
+                        for(long x=1;x<(long)task.getResult().get("addresslistSize")+1;x++)
+                        {
+                            addressesModalList.add(new AddressesModal(task.getResult().get("fullname_"+x).toString()
+                                    ,task.getResult().get("mobileNo_"+x).toString()
+                                    ,task.getResult().get("address_"+x).toString(),(boolean)task.getResult().get("selected_"+x)));
+                            if((boolean)task.getResult().get("selected_"+x))
+                            {
+                                selectedAddress=(int)x-1;
+                            }
+                        }
+                        deliveryIntent=new Intent(context, DeliveryActivity.class);
+                    }
+                    context.startActivity(deliveryIntent);
+                    ((Activity) context).finish();
+                    loaddingDialog.dismiss();
+
+
+
+
+
+                }
+                else
+                {
+                    String e2=task.getException().getMessage();
+                    Toast.makeText(context,e2,Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
 
     }
     public  static void removeWishList(final int index,final Context context)
@@ -377,11 +432,11 @@ public class DBqueries {
         ProductDetailsActivity.running_wishlist_querry=false;
 
     }
-    public static void removeCartList(final int index,final  Context context)
+    public static void removeCartList(final int index,final  Context context, final TextView cartTotalAmount)
     {
         int I=(int)index;
         String removedProductId=localCartList.get(I);
-        localCartList.remove((int)I);
+        localCartList.remove(I);
         HashMap<String,Object> updateCartList = new HashMap<>();
         for (int x=0;x<localCartList.size();x++)
         {
@@ -402,6 +457,9 @@ public class DBqueries {
                     if(localCartList.size()==0)
                     {
                         cartItemModalList.clear();
+                        LinearLayout continueBtnContainer=(LinearLayout)cartTotalAmount.getParent().getParent();
+                        continueBtnContainer.setVisibility(View.GONE);
+
                     }
                     ProductDetailsActivity.ALREADY_ADDED_TO_CART=false;
                     Toast.makeText(context,"Removed Successfully",Toast.LENGTH_SHORT).show();
@@ -414,15 +472,18 @@ public class DBqueries {
                 }
 
                 ProductDetailsActivity.running_cart_querry=false;
+                MyCartFragment.loadingDialog.dismiss();
             }
         });
 
 
     }
+
     public static void clearData()
     {
         categoryModelList.clear();
         lists.clear();
+        addressesModalList.clear();
         loadedCategoriesNames.clear();
         localwishList.clear();
         localCartList.clear();

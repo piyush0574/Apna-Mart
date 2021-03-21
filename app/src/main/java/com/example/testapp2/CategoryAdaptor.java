@@ -22,6 +22,7 @@ public class CategoryAdaptor extends RecyclerView.Adapter<CategoryAdaptor.ViewHo
     private List<CategoryModel> categoryModelList;
     private int lastPosition=-1;
 
+
     public CategoryAdaptor(List<CategoryModel> categoryModelList) {
         this.categoryModelList = categoryModelList;// This is list of all category that will come from firebase
     }

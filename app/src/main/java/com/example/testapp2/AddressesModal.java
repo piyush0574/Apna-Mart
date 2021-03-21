@@ -1,12 +1,12 @@
 package com.example.testapp2;
 
 public class AddressesModal {
-    private String fullName,pincode,address;
-    private Boolean selected;
+    private String fullName,mobileNo,address;
+    private boolean selected;
 
-    public AddressesModal(String fullName, String pincode, String address,Boolean selected) {
+    public AddressesModal(String fullName, String mobileNo, String address,boolean selected) {
         this.fullName = fullName;
-        this.pincode = pincode;
+        this.mobileNo = mobileNo;
         this.address = address;
         this.selected=selected;
     }
@@ -28,11 +28,11 @@ public class AddressesModal {
     }
 
     public String getPincode() {
-        return pincode;
+        return mobileNo;
     }
 
     public void setPincode(String pincode) {
-        this.pincode = pincode;
+        this.mobileNo = pincode;
     }
 
     public String getAddress() {

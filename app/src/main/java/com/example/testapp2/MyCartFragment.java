@@ -12,10 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,8 +38,11 @@ public class MyCartFragment extends Fragment {
     }
     private RecyclerView cartItemRecycleView;
     private Button continueBtn;
-    private Dialog loadingDialog;
+    public static LinearLayout continuelayout;
+
+    public static Dialog loadingDialog;
     public static CartAdaptor cartAdaptor;
+    private TextView totalAmount;
 
 
     /**
@@ -71,7 +74,6 @@ public class MyCartFragment extends Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,7 +81,7 @@ public class MyCartFragment extends Fragment {
         // loading dialog
         loadingDialog=new Dialog(getContext());
         loadingDialog.setContentView(R.layout.loading_progess_dialog);
-//        loadingDialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
+        loadingDialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         loadingDialog.setCancelable(false);
         loadingDialog.show();
@@ -92,28 +94,58 @@ public class MyCartFragment extends Fragment {
 
          View view= inflater.inflate(R.layout.fragment_my_cart, container, false);
         cartItemRecycleView=view.findViewById(R.id.cart_items_recycle_view);
+        totalAmount=view.findViewById(R.id.totalcartAmount_Tv_my_cart);
+        continuelayout=view.findViewById(R.id.continue_layout);
         LinearLayoutManager cartmanager=new LinearLayoutManager(getActivity());
         cartmanager.setOrientation(LinearLayoutManager.VERTICAL);
         cartItemRecycleView.setLayoutManager(cartmanager);
         if(DBqueries.cartItemModalList.size()==0)
         {
             DBqueries.localCartList.clear();
-            DBqueries.loadCartList(getContext(),true,loadingDialog,new TextView(getContext()));
+            DBqueries.loadCartList(getContext(),true,loadingDialog,new TextView(getContext()),totalAmount);
         }
         else
         {
+            if(DBqueries.cartItemModalList.get(DBqueries.cartItemModalList.size()-1).getType()==CartItemModal.TOTAL_AMOUNT)
+            {
+                LinearLayout continueBtnContainer=(LinearLayout)totalAmount.getParent().getParent();
+                continueBtnContainer.setVisibility(View.VISIBLE);
+
+
+            }
             loadingDialog.dismiss();
         }
         //here we will create and set adaptor
-        cartAdaptor=new CartAdaptor(DBqueries.cartItemModalList);
+        cartAdaptor=new CartAdaptor(DBqueries.cartItemModalList,totalAmount,true);
         cartItemRecycleView.setAdapter(cartAdaptor);
         cartAdaptor.notifyDataSetChanged();
         continueBtn=view.findViewById(R.id.cart_continue_btn);
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent address=new Intent(getContext(), AddAddressActivity.class);
-                getContext().startActivity(address);
+                DeliveryActivity.cartItemModalListDeliveryActivity=new ArrayList<>();
+                for(int x=0;x<DBqueries.cartItemModalList.size();x++)
+                {
+                    CartItemModal cartItemModal=DBqueries.cartItemModalList.get(x);
+                    if(cartItemModal.isInStock())
+                    {
+                        DeliveryActivity.cartItemModalListDeliveryActivity.add(cartItemModal);
+                    }
+                }
+                DeliveryActivity.cartItemModalListDeliveryActivity.add(DeliveryActivity.cartItemModalListDeliveryActivity.size()-1,new CartItemModal(CartItemModal.TOTAL_AMOUNT));
+                loadingDialog.show();
+                if(DBqueries.addressesModalList.size()==0)
+                {
+                    DBqueries.loadAddresses(getContext(),loadingDialog);
+                }
+                else
+                {
+                    loadingDialog.dismiss();
+                    Intent deliveryIntent=new Intent(getContext(),DeliveryActivity.class);
+                    startActivity(deliveryIntent);
+                }
+
+
             }
         });
         return view;

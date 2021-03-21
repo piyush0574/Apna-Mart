@@ -5,14 +5,14 @@
 
     <!-- View border color and width -->
     <stroke
-        android:width="2dp"
-        android:dashWidth="2dp"
-        android:color="#433A3A" >
+        android:width="1dp"
+        android:dashWidth="1dp"
+        android:color="@color/grayLight" >
     </stroke>
 
     <!-- The radius makes the corners rounded -->
     <corners
-        android:radius="2dp"   >
+        android:radius="4dp"   >
     </corners>
 
 </shape>

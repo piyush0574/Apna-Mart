@@ -20,8 +20,9 @@ public class CartItemModal  {
     private long productQunatity;
     private long discount;
     private String productID;
+    private boolean inStock;
 
-    public CartItemModal(int type, String productImage, String productTitle, String cuttedPrice, String originalPrice, long productQunatity, long discount,String productID) {
+    public CartItemModal(int type, String productImage, String productTitle, String cuttedPrice, String originalPrice, long productQunatity, long discount,String productID,boolean inStock) {
         this.type = type;
         this.productImage = productImage;
         this.productTitle = productTitle;
@@ -30,6 +31,15 @@ public class CartItemModal  {
         this.productQunatity = productQunatity;
         this.discount = discount;
         this.productID=productID;
+        this.inStock=inStock;
+    }
+
+    public boolean isInStock() {
+        return inStock;
+    }
+
+    public void setInStock(boolean inStock) {
+        this.inStock = inStock;
     }
 
     public String getProductID() {

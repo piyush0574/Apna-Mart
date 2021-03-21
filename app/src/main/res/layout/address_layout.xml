@@ -15,19 +15,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/location" />
+        app:srcCompat="@drawable/location_" />
 
     <EditText
         android:id="@+id/city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="City*"
+        android:background="@drawable/border"
+        android:padding="8dp"
         android:inputType="textPersonName"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
@@ -39,11 +41,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/border"
+        android:padding="8dp"
         android:gravity="start"
-        android:hint="Locality,Area or Streat"
+        android:hint="Locality,Area or Streat*"
         android:inputType="textMultiLine"
         android:lines="2"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city" />
@@ -51,15 +55,17 @@
     <EditText
         android:id="@+id/flatNumber"
         android:layout_width="match_parent"
+        android:background="@drawable/border"
+        android:padding="8dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:gravity="start"
-        android:hint="Flat Number and Building Name"
+        android:hint="Flat Number and Building Name*"
         android:inputType="textMultiLine"
         android:lines="2"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locality" />
@@ -72,9 +78,11 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="LandMark"
+        android:hint="LandMark(Optional)"
         android:inputType="textPersonName"
-        android:textColorHint="@color/black"
+        android:background="@drawable/border"
+        android:padding="8dp"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flatNumber" />
@@ -84,10 +92,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:background="@drawable/border"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/curved_edge_background"
-        android:orientation="horizontal"
+        android:padding="4dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,24 +104,31 @@
 
         <EditText
             android:id="@+id/delivery_pincode"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
+            android:layout_weight="1"
+            android:background="@drawable/border"
             android:ems="10"
             android:hint="Pincode*"
             android:inputType="number"
+            android:maxLength="6"
+            android:padding="8dp"
             android:paddingLeft="4dp"
-            android:textColorHint="@color/black" />
+            android:layout_marginBottom="8dp"
+            android:textColorHint="@color/gray" />
 
-        <EditText
-            android:id="@+id/editTextTextPersonName9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/state_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/border"
             android:ems="10"
-            android:hint="State*"
             android:inputType="textPersonName"
-            android:textColorHint="@color/black" />
+            android:padding="8dp"
+            android:textColorHint="@color/gray" />
+
+
     </LinearLayout>
 
     <View
@@ -130,6 +146,8 @@
     <EditText
         android:id="@+id/name"
         android:layout_width="0dp"
+        android:background="@drawable/border"
+        android:padding="8dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -137,7 +155,7 @@
         android:ems="10"
         android:hint="Full Name*"
         android:inputType="textPersonName"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider14" />
@@ -152,7 +170,10 @@
         android:ems="10"
         android:hint="Mobile Number*"
         android:inputType="number"
-        android:textColorHint="@color/black"
+        android:maxLength="10"
+        android:background="@drawable/border"
+        android:padding="8dp"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -165,9 +186,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
+        android:background="@drawable/border"
+        android:padding="8dp"
+        android:maxLength="10"
         android:hint="Alternate Mobile Number (Optional)"
         android:inputType="number"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mobile_number" />

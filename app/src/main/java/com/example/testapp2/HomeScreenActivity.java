@@ -1,26 +1,18 @@
 package com.example.testapp2;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
@@ -33,7 +25,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import static com.example.testapp2.RegisterActivity.setSignUpFragment;
 
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -110,6 +101,7 @@ public class HomeScreenActivity extends AppCompatActivity
             navigationView.getMenu().getItem(navigationView.getMenu().size()-1).setEnabled(true);
         }
         invalidateOptionsMenu();
+
     }
 
     @Override
@@ -164,7 +156,7 @@ public class HomeScreenActivity extends AppCompatActivity
                     if(DBqueries.localCartList.size()==0)
                     {
                         badgeCount.setVisibility(View.INVISIBLE);
-                        DBqueries.loadCartList(HomeScreenActivity.this,false,new Dialog(HomeScreenActivity.this),badgeCount);
+                        DBqueries.loadCartList(HomeScreenActivity.this,false,new Dialog(HomeScreenActivity.this),badgeCount,new TextView(HomeScreenActivity.this));
                     }
                     else
                     {
@@ -180,17 +172,18 @@ public class HomeScreenActivity extends AppCompatActivity
                     }
 
                 }
-            homeCartItem.getActionView().setOnClickListener(new View.OnClickListener() {
+             homeCartItem.getActionView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(currentUser==null)
                         {
                             // creating dialog box
-                            TwoOptionDialogBox.twoOptionDialogBoxShow(HomeScreenActivity.this,"Sign In","Sign Up!");
+                            DialogBox.twoOptionDialogBoxShowWithImage(HomeScreenActivity.this,"Sign In","Sign Up!");
                         }
                         else
                         {
-                            goToFragment("My cart",new MyCartFragment(),CART_FRAGMENT);
+
+                                goToFragment("My cart",new MyCartFragment(),CART_FRAGMENT);
 
                         }
 
@@ -224,10 +217,11 @@ public class HomeScreenActivity extends AppCompatActivity
             if(currentUser==null)
             {
                 // creating dialog box
-                TwoOptionDialogBox.twoOptionDialogBoxShow(HomeScreenActivity.this,"Sign In","Sign Up!");
+                DialogBox.twoOptionDialogBoxShowWithImage(HomeScreenActivity.this,"Sign In","Sign Up!");
             }
             else
             {
+
                 goToFragment("My cart",new MyCartFragment(),CART_FRAGMENT);
 
             }
@@ -329,16 +323,14 @@ public class HomeScreenActivity extends AppCompatActivity
 
             else if(id==R.id.nav_signout)
             {
-//
-                FirebaseAuth.getInstance().signOut();
-                DBqueries.clearData();
                 Intent registerIntent=new Intent(HomeScreenActivity.this,RegisterActivity.class);
-                startActivity(registerIntent);
-                finish();
+                DialogBox.SignOutDialog(HomeScreenActivity.this,registerIntent);
+                drawer.closeDrawer(GravityCompat.START,true); // to close drawer
+                navigationView.getMenu().getItem(0).setEnabled(false);
                 return true;
 
             }
-            drawer.closeDrawer(GravityCompat.START,true); // to close drawer
+
             return true;
         }
         else
@@ -359,7 +351,7 @@ public class HomeScreenActivity extends AppCompatActivity
             if(!(id==R.id.nav_mymall ||id==R.id.nav_share ) )
             {
                 drawer.closeDrawer(GravityCompat.START,true); // to close drawer
-                TwoOptionDialogBox.twoOptionDialogBoxShow(HomeScreenActivity.this,"Sign In","Sign Up!");
+                DialogBox.twoOptionDialogBoxShowWithImage(HomeScreenActivity.this,"Sign In","Sign Up!");
                 return false;
             }
             else

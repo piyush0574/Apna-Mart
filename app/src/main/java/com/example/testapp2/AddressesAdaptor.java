@@ -19,11 +19,12 @@ import static com.example.testapp2.MyAddressesActivity.Refreshitem;
 public class AddressesAdaptor extends RecyclerView.Adapter<AddressesAdaptor.ViewHolder> {
     private List<AddressesModal>addressesModalList;
     private int MODE;
-    private int preSelectedposition=-1;
+    private int preSelectedposition;
 
     public AddressesAdaptor(List<AddressesModal> addressesModalList,int MODE) {
         this.addressesModalList = addressesModalList;
         this.MODE=MODE;
+        this.preSelectedposition=DBqueries.selectedAddress;
     }
 
     @NonNull
@@ -55,7 +56,7 @@ public class AddressesAdaptor extends RecyclerView.Adapter<AddressesAdaptor.View
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             fullname=itemView.findViewById(R.id.name);
-            pincode=itemView.findViewById(R.id.pincode);
+            pincode=itemView.findViewById(R.id.pincode_shipping);
             address=itemView.findViewById(R.id.address);
             icon=itemView.findViewById(R.id.icon_view);
             linearLayoutOptionContainer=itemView.findViewById(R.id.edit_remove_address_container);
@@ -86,6 +87,7 @@ public class AddressesAdaptor extends RecyclerView.Adapter<AddressesAdaptor.View
                           addressesModalList.get(preSelectedposition).setSelected(false);
                           Refreshitem(preSelectedposition,position);
                           preSelectedposition=position;
+                          DBqueries.selectedAddress=position;
                       }
 
                     }
@@ -103,6 +105,7 @@ public class AddressesAdaptor extends RecyclerView.Adapter<AddressesAdaptor.View
                         linearLayoutOptionContainer.setVisibility(View.VISIBLE);
                         Refreshitem(preSelectedposition,preSelectedposition);
                         preSelectedposition=position;
+                        DBqueries.selectedAddress=position;
 
                     }
                 });
